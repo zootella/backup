@@ -86,12 +86,12 @@ displayitem JobDisplay() { sectionitem section;
 
 		// Show counts
 		s += "Processed " +
-			saynumber(Job.folder,       "folder")        + ", " +
-			saynumber(Job.foldererror,  "folder error")  + ", " +
-			saynumber(Job.file,         "file")          + ", " +
-			saynumber(Job.fileerror,    "file error")    + ", " +
-			saynumber(Job.compare,      "compare")       + ", " +
-			saynumber(Job.compareerror, "compare error") + "\r\n";
+			saynumber(Job.folder,       _T("folder"))        + _T(", ") +
+			saynumber(Job.foldererror,  _T("folder error"))  + _T(", ") +
+			saynumber(Job.file,         _T("file"))          + _T(", ") +
+			saynumber(Job.fileerror,    _T("file error"))    + _T(", ") +
+			saynumber(Job.compare,      _T("compare"))       + _T(", ") +
+			saynumber(Job.compareerror, _T("compare error")) + _T("\r\n");
 
 		// Add the given line that says what the program is doing now
 		s += Job.task;

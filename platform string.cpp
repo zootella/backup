@@ -50,7 +50,7 @@ int number(read r)
 	// reads the text as a number, handling a leading minus sign properly
 	// returns the number, or 0 if given blank or alphabetic text
 
-	return(atoi(r)); // RETURN WHAT ATOI DOES
+	return _tstoi(r); // USE FUNCTION LIKE ATOI
 }
 
 string numerals(int number)
@@ -59,13 +59,9 @@ string numerals(int number)
 	// writes the minus sign adn number into text
 	// returns a string
 
-	// 64 BITS IS 18446744073709551616 POSSIBILITIES, 20 PLUS MINUS SIGN AND NULL TERMINATOR
-	character bay[22 +SAFETY];
-	itoa(number, bay, 10); // THE 10 IS FOR BASE TEN
-
-	// COPY THE TEXT INTO A STRING AND RETURN IT
-	string s = bay;
-	return(s);
+	character bay[MAX_PATH];
+	_itot(number, bay, 10); // THE 10 IS FOR BASE TEN
+	return bay;
 }
 
 bool is(read r)
@@ -182,8 +178,8 @@ int find(read r, read t, direction d, matching m)
 			// UPPERCASE THEM IF MATCHING WAS REQUESTED
 			if (m == Matching) {
 
-				rchar = (character)CharUpper((LPSTR)(ULONG_PTR)MAKELONG((WORD)rchar, 0));
-				tchar = (character)CharUpper((LPSTR)(ULONG_PTR)MAKELONG((WORD)tchar, 0));
+				rchar = (character)CharUpper((write)(ULONG_PTR)MAKELONG((WORD)rchar, 0));
+				tchar = (character)CharUpper((write)(ULONG_PTR)MAKELONG((WORD)tchar, 0));
 			}
 
 			// MISMATCH FOUND, SET FALSE AND BREAK
@@ -211,7 +207,7 @@ string parse(read r, read t1, read t2, matching m)
 	string s;
 	s = after(r, t1, Forward, m);
 	if (has(s, t2, m)) s = before(s, t2, Forward, m);
-	else               s = "";
+	else               s = _T("");
 	return(s);
 }
 
@@ -252,7 +248,7 @@ void split(read r, read t, string *b, string *a, direction d, matching m)
 
 		// NOT FOUND, ALL TEXT IS BEFORE AND NONE IS AFTER, DONE
 		*b = r;
-		*a = "";
+		*a = _T("");
 		return;
 	}
 
@@ -375,9 +371,9 @@ string saynumber(int number, read name)
 	// composes text like "14 apples"
 	// returns a string
 
-	if      (number == 0) return(make("no ", name, "s"));                               // ZERO YIELDS "no [name]s"
-	else if (number == 1) return(make("1 ", name));                                     // ONE YIELDS "1 [name]"
-	else                  return(make(insertcommas(numerals(number)), " ", name, "s")); // GREATER YIELDS "[number] [name]s"
+	if      (number == 0) return(make(_T("no "), name, _T("s")));                               // ZERO YIELDS "no [name]s"
+	else if (number == 1) return(make(_T("1 "), name));                                         // ONE YIELDS "1 [name]"
+	else                  return(make(insertcommas(numerals(number)), _T(" "), name, _T("s"))); // GREATER YIELDS "[number] [name]s"
 }
 
 string insertcommas(read r)
@@ -420,8 +416,8 @@ string saytime(DWORD time)
 
 	// COMPOSE THE TEXT TO DISPLAY AND RETURN IT
 	string s;
-	if (hour) s += saynumber(hour, "hour");
-	if (hour || minute) s += " " + saynumber(minute, "minute");
-	s += " " + saynumber(second, "second");
-	return(trim(s, " "));
+	if (hour) s += saynumber(hour, _T("hour"));
+	if (hour || minute) s += " " + saynumber(minute, _T("minute"));
+	s += _T(" ") + saynumber(second, _T("second"));
+	return(trim(s, _T(" ")));
 }

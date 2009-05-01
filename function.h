@@ -51,7 +51,7 @@ string RegistryRead(HKEY root, read path, read name);
 void RegistryWrite(HKEY root, read path, read name, read value);
 
 // Functions in platform string.cpp
-string make(read r1 = "", read r2 = "", read r3 = "", read r4 = "", read r5 = "", read r6 = "", read r7 = "", read r8 = "", read r9 = "");
+string make(read r1 = _T(""), read r2 = _T(""), read r3 = _T(""), read r4 = _T(""), read r5 = _T(""), read r6 = _T(""), read r7 = _T(""), read r8 = _T(""), read r9 = _T(""));
 string upper(read r);
 string lower(read r);
 int number(read r);
@@ -72,7 +72,7 @@ string replace(read r, read t1, read t2, matching m = Different);
 string clip(read r, int startindex, int characters = -1);
 string on(read r, read t, direction d = Forward, matching m = Different);
 string off(read r, read t, direction d = Forward, matching m = Different);
-string trim(read r, read t1 = "", read t2 = "", read t3 = "");
+string trim(read r, read t1 = _T(""), read t2 = _T(""), read t3 = _T(""));
 string saynumber(int number, read name);
 string insertcommas(read r);
 string saytime(DWORD time);

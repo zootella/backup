@@ -18,7 +18,7 @@
 bool DiskFolder(read path, bool create, bool write) {
 
 	// A trailing backslash is not allowed, give this "C:", not "C:\"
-	if (trails(path, "\\")) return false;
+	if (trails(path, _T("\\"))) return false;
 
 	// Strings to split
 	string s = path;
@@ -29,27 +29,27 @@ bool DiskFolder(read path, bool create, bool write) {
 
 		// Loop making build like "C:", "C:\folder", "C:\folder\subfolder"
 		while (is(s)) {
-			split(s, "\\", &b, &s);
+			split(s, _T("\\"), &b, &s);
 			if (is(build)) build += "\\";
 			build += b;
 			if (!DiskFolderCheck(build, create)) return false; // Make it a folder
 		}
 
 	// Network path, like "\\computer\share" or "\\computer\share\folder\subfolder"
-	} else if (starts(s, "\\\\")) {
+	} else if (starts(s, _T("\\\\"))) {
 
 		// Make build like "\\computer\share"
 		s = clip(s, 2);
 		string computer, share, build;
-		split(s, "\\", &computer, &s);
-		split(s, "\\", &share, &s);
-		build = "\\\\" + computer + "\\" + share;
+		split(s, _T("\\"), &computer, &s);
+		split(s, _T("\\"), &share, &s);
+		build = _T("\\\\") + computer + _T("\\") + share;
 		if (!DiskFolderCheck(build, create)) return false; // Make it a folder
 
 		// Loop making build like "\\computer\share\folder", "\\computer\share\folder\subfolder"
 		while (is(s)) {
-			split(s, "\\", &b, &s);
-			build += "\\" + b;
+			split(s, _T("\\"), &b, &s);
+			build += _T("\\") + b;
 			if (!DiskFolderCheck(build, create)) return false; // Make it a folder
 		}
 
@@ -60,7 +60,7 @@ bool DiskFolder(read path, bool create, bool write) {
 
 	// Also confirm writing there works
 	if (write) {
-		string tick = make(path, "\\", numerals(GetTickCount())); // Try making and deleting a subfolder
+		string tick = make(path, _T("\\"), numerals(GetTickCount())); // Try making and deleting a subfolder
 		if (!DiskMakeFolder(tick)) return false;
 		if (!DiskDeleteFolder(tick)) return false;
 	}
