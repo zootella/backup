@@ -6,7 +6,7 @@
 |_.__/ \__,_|\___|_|\_\\__,_| .__(_)___/_/\_\___|
                             |_|                  
 
-Tiny superpowerful Win32 backup program
+Tiny superpowerful win32 backup program
 
 ==Windows==
 
@@ -52,43 +52,11 @@ General, Character Set: Use Unicode Character Set
 General, Whole Program Optimization: No Whole Program Optimization | Use Link Time Code Generation
 C/C++, Optimization, Optimization: Disabled (/Od) | Minimize Size (/O1)
 C/C++, Code Generation, Enable Minimal Rebuild: Yes (/Gm) | No
-C/C++, Code Generation, Enable C++ Exceptions: Yes With SEH Exceptions (/EHa)
+C/C++, Code Generation, Enable C++ Exceptions: Yes (/EHsc)
 C/C++, Code Generation, Basic Runtime Checks: Both | Default
 C/C++, Code Generation, Runtime Library: Multi-threaded Debug (/MTd) | Multi-threaded (/MT)
 C/C++, Precompiled Headers, Create/Use Precompiled Header: Not Using Precompiled Headers
 Linker, Manifest File, Generate Manifest: No
 Manifest Tool, Input and Output, Embed Manifest: No
-
-Project, Properties, Configuration Properties, C/C++, Preprocessor, Preprocessor Definitions, Debug/Release
-WIN32
-_DEBUG/NDEBUG
-_WINDOWS
-_WIN32_WINNT=0x0501
-BOOST_ALL_NO_LIB
-BOOST_THREAD_USE_LIB
-_FILE_OFFSET_BITS=64
-WITH_SHIPPED_GEOIP_H
-
-Project, Properties, Configuration Properties, Linker, Input, Additional Dependencies, Debug
-comctl32.lib
-ssleay32.lib
-libeay32.lib
-libboost_date_time-vc90-mt-sgd.lib
-libboost_filesystem-vc90-mt-sgd.lib
-libboost_system-vc90-mt-sgd.lib
-libboost_thread-vc90-mt-sgd.lib
-libtorrent-debug.lib
-
-Release
-comctl32.lib
-ssleay32.lib
-libeay32.lib
-libboost_date_time-vc90-mt-s.lib
-libboost_filesystem-vc90-mt-s.lib
-libboost_system-vc90-mt-s.lib
-libboost_thread-vc90-mt-s.lib
-libtorrent-release.lib
-
-See the whole command line at C/C++, Command Line and Linker, Command Line
 
 ==The end==
