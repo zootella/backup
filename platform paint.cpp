@@ -46,7 +46,7 @@ brushitem CreateBrush(COLORREF color) {
 	brushitem brush;
 	brush.color = color;
 	brush.brush = CreateSolidBrush(color);
-	if (!brush.brush) Report(_T("error createsolidbrush"));
+	if (!brush.brush) Report(L"error createsolidbrush");
 
 	// Return the brush color and handle
 	return brush;
@@ -74,7 +74,7 @@ HFONT CreateFont(read face, int points) {
 	info.lfPitchAndFamily = VARIABLE_PITCH | FF_DONTCARE; // Only used if the font name is unavailable
 	lstrcpy(info.lfFaceName, face);                       // Font name
 	HFONT font = CreateFontIndirect(&info);
-	if (!font) Report(_T("error createfontindirect"));
+	if (!font) Report(L"error createfontindirect");
 	return font;
 }
 
@@ -113,5 +113,5 @@ void PaintText(deviceitem *device, read r, sizeitem size) {
 
 	// Paint the text, if the background is opaque, this will cause a flicker
 	RECT rectangle = size.rectangle();
-	if (!DrawText(device->device, r, -1, &rectangle, DT_NOPREFIX)) Report(_T("error drawtext"));
+	if (!DrawText(device->device, r, -1, &rectangle, DT_NOPREFIX)) Report(L"error drawtext");
 }

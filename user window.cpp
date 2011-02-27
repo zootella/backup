@@ -30,14 +30,14 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 	windowclass.cbClsExtra    = 0;
 	windowclass.cbWndExtra    = 0;
 	windowclass.hInstance     = Handle.instance;
-	windowclass.hIcon         = (HICON)LoadImage(Handle.instance, _T("APPICON"), IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR);
-	windowclass.hIconSm       = (HICON)LoadImage(Handle.instance, _T("APPICON"), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+	windowclass.hIcon         = (HICON)LoadImage(Handle.instance, L"APPICON", IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR);
+	windowclass.hIconSm       = (HICON)LoadImage(Handle.instance, L"APPICON", IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	windowclass.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	windowclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-	windowclass.lpszMenuName  = PROGRAMTEST ? _T("MENU_TEST") : NULL; // Don't load the test menu for release
-	windowclass.lpszClassName = _T("BackupClassName");
+	windowclass.lpszMenuName  = PROGRAMTEST ? L"MENU_TEST" : NULL; // Don't load the test menu for release
+	windowclass.lpszClassName = L"BackupClassName";
 	RegisterClassEx(&windowclass);
-	Handle.window = WindowCreate(_T("BackupClassName"), PROGRAMTITLE, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, NULL, NULL);
+	Handle.window = WindowCreate(L"BackupClassName", PROGRAMTITLE, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, NULL, NULL);
 
 	// Make child windows and menus
 	Handle.tasks  = WindowCreateEdit(true,  false); // Edit controls
@@ -46,17 +46,17 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 	WindowEdit(Handle.tasks,   false); // Start out edit controls read-only
 	WindowEdit(Handle.status,  false);
 	WindowEdit(Handle.errors,  false);
-	Handle.clear  = WindowCreateButton(_T("Clear")); // Buttons
-	Handle.task   = WindowCreateButton(_T("Task"));
-	Handle.start  = WindowCreateButton(_T("Start"));
-	Handle.stop   = WindowCreateButton(_T("Stop"));
-	Handle.reset  = WindowCreateButton(_T("Reset"));
+	Handle.clear  = WindowCreateButton(L"Clear"); // Buttons
+	Handle.task   = WindowCreateButton(L"Task");
+	Handle.start  = WindowCreateButton(L"Start");
+	Handle.stop   = WindowCreateButton(L"Stop");
+	Handle.reset  = WindowCreateButton(L"Reset");
 	EnableWindow(Handle.clear, false); // Start out buttons disabled
 	EnableWindow(Handle.task,  false);
 	EnableWindow(Handle.start, false);
 	EnableWindow(Handle.stop,  false);
 	EnableWindow(Handle.reset, false);
-	Handle.menu = MenuLoad(_T("MENU_CONTEXT"), 0); // Context menu
+	Handle.menu = MenuLoad(L"MENU_CONTEXT", 0); // Context menu
 
 	// Prepare the window to show current information, and make the correct controls available
 	WindowUpdate(); // Tries to paint now, but doesn't because the window isn't on the screen yet
@@ -74,7 +74,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, PSTR command, int sho
 	PaintMessage(Handle.window); // Necessary to draw child window controls
 
 	// Start the pulse timer
-	if (!SetTimer(Handle.window, TIMER_PULSE, PULSE, NULL)) Report(_T("error settimer"));
+	if (!SetTimer(Handle.window, TIMER_PULSE, PULSE, NULL)) Report(L"error settimer");
 
 	// Initialize the job
 	JobReset();
@@ -138,7 +138,7 @@ LRESULT CALLBACK MainWinProc(HWND window, UINT message, WPARAM wparam, LPARAM lp
 
 				// Show the context menu beneath the task button
 				RECT rectangle;
-				if (!GetWindowRect(Handle.task, &rectangle)) Report(_T("error getwindowrect"));
+				if (!GetWindowRect(Handle.task, &rectangle)) Report(L"error getwindowrect");
 				UINT choice = MenuShow(Handle.menu, rectangle.left, rectangle.bottom); // Wait here for the user to make a choice
 				if      (choice == ID_TASK_DELETE)        ButtonDelete();
 				else if (choice == ID_TASK_COPY)          ButtonCopy();

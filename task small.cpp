@@ -21,15 +21,15 @@ void TaskDeleteFolder(read path) {
 
 		// Delete the subfolder or file
 		if (f.folder())
-			TaskDeleteFolder(make(path, _T("\\"), f.info.cFileName));
+			TaskDeleteFolder(make(path, L"\\", f.info.cFileName));
 		else
-			TaskDeleteFile(make(path, _T("\\"), f.info.cFileName));
+			TaskDeleteFile(make(path, L"\\", f.info.cFileName));
 
 		if (!JobContinue()) return;
 	}
 
 	// Delete the now empty folder
-	string s = make(_T("Deleting folder \""), path, _T("\"")); // Don't update the status with this, just compose it for an error
+	string s = make(L"Deleting folder \"", path, L"\""); // Don't update the status with this, just compose it for an error
 	if (!DiskDeleteFolder(path)) JobError(s);
 }
 
@@ -37,7 +37,7 @@ void TaskDeleteFolder(read path) {
 void TaskDeleteFile(read path) {
 
 	// Delete the file
-	string s = JobTask(make(_T("Deleting \""), path, _T("\"")));
+	string s = JobTask(make(L"Deleting \"", path, L"\""));
 	if (!DiskDeleteFile(path)) JobError(s);
 }
 
@@ -53,9 +53,9 @@ void TaskCopyFolder(read source, read destination, bool compare) {
 
 		// Copy the subfolder or file
 		if (f.folder())
-			TaskCopyFolder(make(source, _T("\\"), f.info.cFileName), make(destination, _T("\\"), f.info.cFileName), compare);
+			TaskCopyFolder(make(source, L"\\", f.info.cFileName), make(destination, L"\\", f.info.cFileName), compare);
 		else
-			TaskCopyFile(make(source, _T("\\"), f.info.cFileName), make(destination, _T("\\"), f.info.cFileName), compare);
+			TaskCopyFile(make(source, L"\\", f.info.cFileName), make(destination, L"\\", f.info.cFileName), compare);
 	}
 }
 
@@ -63,7 +63,7 @@ void TaskCopyFolder(read source, read destination, bool compare) {
 void TaskMakeFolder(read path) {
 
 	// Make the folder
-	string s = make(_T("Making folder \""), path, _T("\"")); // Don't update the status with this, just compose it for an error
+	string s = make(L"Making folder \"", path, L"\""); // Don't update the status with this, just compose it for an error
 	DiskMakeFolder(path) ? JobFolderCount() : JobFolderError(s);
 }
 
@@ -71,7 +71,7 @@ void TaskMakeFolder(read path) {
 void TaskCopyFile(read source, read destination, bool compare) {
 
 	// Copy the file
-	string s = JobTask(make(_T("Copying \""), source, _T("\" to \""), destination, _T("\"")));
+	string s = JobTask(make(L"Copying \"", source, L"\" to \"", destination, L"\""));
 	DiskCopyFile(source, destination) ? JobFileCount() : JobFileError(s);
 
 	// Compare the files
@@ -82,7 +82,7 @@ void TaskCopyFile(read source, read destination, bool compare) {
 void TaskCompareFolder(read source, read destination) {
 
 	// Make sure source and destination are folders
-	string s = make(_T("Checking folders \""), source, _T("\" and \""), destination, _T("\\")); // Don't update the status with this, just compose it for an error
+	string s = make(L"Checking folders \"", source, L"\" and \"", destination, L"\\"); // Don't update the status with this, just compose it for an error
 	if (!DiskIsFolder(source) || !DiskIsFolder(destination)) {
 		JobError(s); // Add a line of text to the errors, but don't count this as a file compare error
 		return;      // Leave without going into source and finding all its contents as errors also
@@ -94,9 +94,9 @@ void TaskCompareFolder(read source, read destination) {
 
 		// Compare the subfolder or file
 		if (f.folder())
-			TaskCompareFolder(make(source, _T("\\"), f.info.cFileName), make(destination, _T("\\"), f.info.cFileName));
+			TaskCompareFolder(make(source, L"\\", f.info.cFileName), make(destination, L"\\", f.info.cFileName));
 		else
-			TaskCompareFile(make(source, _T("\\"), f.info.cFileName), make(destination, _T("\\"), f.info.cFileName));
+			TaskCompareFile(make(source, L"\\", f.info.cFileName), make(destination, L"\\", f.info.cFileName));
 	}
 }
 
@@ -104,7 +104,7 @@ void TaskCompareFolder(read source, read destination) {
 void TaskCompareFile(read source, read destination) {
 
 	// Compare the files
-	string s = JobTask(make(_T("Comparing \""), source, _T("\" to \""), destination, _T("\"")));
+	string s = JobTask(make(L"Comparing \"", source, L"\" to \"", destination, L"\""));
 	DiskCompareFile(source, destination) ? JobCompareCount() : JobCompareError(s);
 }
 
@@ -112,12 +112,12 @@ void TaskCompareFile(read source, read destination) {
 void TaskUpdateClear(read source, read destination) {
 
 	// Loop through the contents of the destination folder
-	JobTask(make(_T("Clearing \""), destination, _T("\"")));
+	JobTask(make(L"Clearing \"", destination, L"\""));
 	finditem f(destination);
 	string s, d;
 	while (f.result() && JobContinue()) {
-		s = make(source,      _T("\\"), f.info.cFileName); // The path that matches on the source side
-		d = make(destination, _T("\\"), f.info.cFileName); // The path we found on the destination side
+		s = make(source,      L"\\", f.info.cFileName); // The path that matches on the source side
+		d = make(destination, L"\\", f.info.cFileName); // The path we found on the destination side
 
 		if (f.folder())                // Found a subfolder on the destination side
 			if (DiskIsFolder(s))       // If there is also a folder on the source side
@@ -134,12 +134,12 @@ void TaskUpdateClear(read source, read destination) {
 void TaskUpdateFill(read source, read destination, bool compare) {
 
 	// Loop through the contents of the source folder
-	JobTask(make(_T("Updating \""), source, _T("\"")));
+	JobTask(make(L"Updating \"", source, L"\""));
 	finditem f(source);
 	string s, d;
 	while (f.result() && JobContinue()) {
-		s = make(source,      _T("\\"), f.info.cFileName); // The path we found on the source side
-		d = make(destination, _T("\\"), f.info.cFileName); // The path that matches on the destination side
+		s = make(source,      L"\\", f.info.cFileName); // The path we found on the source side
+		d = make(destination, L"\\", f.info.cFileName); // The path that matches on the destination side
 
 		if (f.folder())                        // Found a source subfolder
 			if (DiskIsFolder(d))               // There is also a folder on the destination side

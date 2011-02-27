@@ -23,8 +23,8 @@ void JobReset() { sectionitem section;
 	Job.stage = JobStageBefore;
 	Job.stop = false;
 	Job.time = 0;
-	Job.tasks = _T("");
-	Job.task = Job.errors = _T("");
+	Job.tasks = L"";
+	Job.task = Job.errors = L"";
 	Job.error = 0;
 	Job.folder = Job.file = Job.compare = 0;
 	Job.foldererror = Job.fileerror = Job.compareerror = 0;
@@ -69,7 +69,7 @@ void JobStop() { sectionitem section;
 	if (Job.stage != JobStageRunning) return; // Can only stop when running
 
 	// Record an error that we stopped it
-	JobError(_T("Stopped"));
+	JobError(L"Stopped");
 
 	// Set the flag for the thread to see
 	Job.stop = true;
@@ -86,5 +86,5 @@ void JobDone() { sectionitem section;
 	Job.time = GetTickCount() - Job.time;
 
 	// Clear the last task it did, this would show up in status
-	JobTask(_T(""));
+	JobTask(L"");
 }

@@ -29,7 +29,7 @@ void PaintCreate() {
 	Handle.middle      = CreateBrush(ColorMix(GetSysColor(COLOR_3DFACE), 1, GetSysColor(COLOR_3DSHADOW), 1));
 
 	// Make fonts
-	Handle.arial = CreateFont(_T("Arial"), 299); // Biggest size that will still have font smoothing
+	Handle.arial = CreateFont(L"Arial", 299); // Biggest size that will still have font smoothing
 
 	// Make a font based on what the system uses in message boxes
 	NONCLIENTMETRICS info;
@@ -40,7 +40,7 @@ void PaintCreate() {
 		&info,                   // Structure to fill with information
 		0);                      // Not setting a system parameter
 	Handle.font = CreateFontIndirect(&info.lfMenuFont);
-	if (!Handle.font) Report(_T("error createfontindirect"));
+	if (!Handle.font) Report(L"error createfontindirect");
 }
 
 // Paint the client area of the window and resize the child window controls
@@ -153,9 +153,9 @@ void Paint() {
 	device.Font(Handle.font);
 	device.FontColor(label->color);
 	device.Background(TRANSPARENT);
-	PaintText(&device, _T("Tasks"),  label1);
-	PaintText(&device, _T("Status"), label2);
-	PaintText(&device, _T("Errors"), label3);
+	PaintText(&device, L"Tasks",  label1);
+	PaintText(&device, L"Status", label2);
+	PaintText(&device, L"Errors", label3);
 
 	// Paint the borders
 	PaintBorder(&device, border1, Handle.middle.brush);

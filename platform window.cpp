@@ -16,7 +16,7 @@ extern handleitem Handle;
 void Report(read r) {
 
 	// Display the given text in a message box
-	if (PROGRAMTEST) MessageBox(Handle.window, r, _T("Report"), MB_OK);
+	if (PROGRAMTEST) MessageBox(Handle.window, r, L"Report", MB_OK);
 }
 
 // Start a new thread to execute the given function
@@ -31,17 +31,17 @@ void BeginThread(LPVOID function) {
 		(void *)                          NULL,     // Pass no parameter to the thread
 		(unsigned)                        0,        // Create and start thread
 		(unsigned *)                      &info);   // Writes thread identifier, cannot be null for Windows 95
-	if (!thread) Report(_T("error beginthreadex"));
+	if (!thread) Report(L"error beginthreadex");
 
 	// Tell the system this thread is done with the new thread handle
-	if (!CloseHandle(thread)) Report(_T("error closehandle"));
+	if (!CloseHandle(thread)) Report(L"error closehandle");
 }
 
 // Have the given window display the given text
 void WindowTextSet(HWND window, read r) {
 
 	// Set the text to the window
-	if (!SetWindowText(window, r)) Report(_T("error setwindowtext"));
+	if (!SetWindowText(window, r)) Report(L"error setwindowtext");
 }
 
 // Get the text a window is displaying
@@ -49,7 +49,7 @@ void WindowTextSet(HWND window, read r) {
 string WindowTextGet(HWND window) {
 
 	// If the window handle is null, return blank
-	if (!window) return _T("");
+	if (!window) return L"";
 
 	// Find the required buffer size, in bytes
 	int size =
@@ -105,7 +105,7 @@ HWND WindowCreateEdit(bool scrollbars, bool capacity) {
 		ES_AUTOHSCROLL | ES_AUTOVSCROLL; // Scroll when the user enters text
 
 	// Create the edit window
-	HWND window = WindowCreate(_T("EDIT"), NULL, style, 0, Handle.window, NULL);
+	HWND window = WindowCreate(L"EDIT", NULL, style, 0, Handle.window, NULL);
 
 	// Have it use Tahoma, not the default system font
 	SendMessage( 
@@ -130,7 +130,7 @@ HWND WindowCreateButton(read r) {
 		BS_PUSHBUTTON; // Have the button send the window a message when the user clicks it
 
 	// Create the edit window
-	HWND window = WindowCreate(_T("BUTTON"), NULL, style, 0, Handle.window, NULL);
+	HWND window = WindowCreate(L"BUTTON", NULL, style, 0, Handle.window, NULL);
 
 	// Title it
 	WindowTextSet(window, r);
@@ -159,7 +159,7 @@ HWND WindowCreate(read name, read text, DWORD style, int size, HWND parent, HMEN
 		menu,                   // Menu handle or child window identification number
 		Handle.instance,        // Program instance handle
 		NULL);                  // No parameter
-	if (!window) Report(_T("error createwindow"));
+	if (!window) Report(L"error createwindow");
 	return window;
 }
 
@@ -167,7 +167,7 @@ HWND WindowCreate(read name, read text, DWORD style, int size, HWND parent, HMEN
 void WindowSize(HWND window, sizeitem size) {
 
 	// Move the window, false to not send a paint message
-	if (!MoveWindow(window, size.x(), size.y(), size.w(), size.h(), false)) Report(_T("error movewindow"));
+	if (!MoveWindow(window, size.x(), size.y(), size.w(), size.h(), false)) Report(L"error movewindow");
 }
 
 // Make an edit window editable or read only
@@ -188,11 +188,11 @@ HMENU MenuLoad(read name, int index) {
 
 	// Load the menu resource
 	HMENU menus = LoadMenu(Handle.instance, name);
-	if (!menus) { Report(_T("error loadmenu")); return NULL; }
+	if (!menus) { Report(L"error loadmenu"); return NULL; }
 
 	// Clip off the submenu at the given index, and return it
 	HMENU menu = GetSubMenu(menus, index);
-	if (!menu) Report(_T("error getsubmenu"));
+	if (!menu) Report(L"error getsubmenu");
 	return menu;
 }
 
@@ -234,7 +234,7 @@ string DialogBrowse(read display) {
 	// Show the user the browse for folder system dialog box
 	CoInitialize(NULL);
 	LPITEMIDLIST list = SHBrowseForFolder(&info); // Returns memory we are responsible for freeing
-	if (!list) return _T(""); // The user clicked Cancel or the close X
+	if (!list) return L""; // The user clicked Cancel or the close X
 
 	// Get the path the user chose
 	character buffer[MAX_PATH];

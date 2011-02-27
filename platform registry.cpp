@@ -26,13 +26,13 @@ bool registryitem::Open(HKEY root, read path) {
 		root,                    // Handle to open root key
 		path,                    // Subkey name
 		0,
-		_T(""),
+		L"",
 		REG_OPTION_NON_VOLATILE, // Save information in the registry file
 		KEY_ALL_ACCESS,          // Get access to read and write values in the key we're making and opening
 		NULL,
 		&k,                      // Put the opened or created key handle here
 		&info);                  // Tells if the key was opened or created and opened
-	if (result != ERROR_SUCCESS || !k) { Report(_T("error regcreatekeyex")); return false; }
+	if (result != ERROR_SUCCESS || !k) { Report(L"error regcreatekeyex"); return false; }
 
 	// Save the open key in this object
 	key = k;
@@ -45,7 +45,7 @@ string RegistryRead(HKEY root, read path, read name) {
 
 	// Open the key
 	registryitem registry;
-	if (!registry.Open(root, path)) return _T("");
+	if (!registry.Open(root, path)) return L"";
 
 	// Get the size required
 	DWORD size;
@@ -56,8 +56,8 @@ string RegistryRead(HKEY root, read path, read name) {
 		NULL,
 		NULL,         // No data buffer, we're requesting the size
 		&size);       // Required size in bytes including the null terminator
-	if (result == ERROR_FILE_NOT_FOUND) return _T("");
-	if (result != ERROR_SUCCESS) { Report(_T("error regqueryvalueex")); return _T(""); }
+	if (result == ERROR_FILE_NOT_FOUND) return L"";
+	if (result != ERROR_SUCCESS) { Report(L"error regqueryvalueex"); return L""; }
 
 	// Open a string
 	string s;
@@ -72,7 +72,7 @@ string RegistryRead(HKEY root, read path, read name) {
 		(LPBYTE)buffer, // Data buffer, writes the null terminator
 		&size);         // Size of data buffer in bytes
 	s.ReleaseBuffer();
-	if (result != ERROR_SUCCESS) Report(_T("error regqueryvalueex"));
+	if (result != ERROR_SUCCESS) Report(L"error regqueryvalueex");
 
 	// Return the string
 	return s;
@@ -93,5 +93,5 @@ void RegistryWrite(HKEY root, read path, read name, read value) {
 		REG_SZ,                                   // Variable type is a null-terminated string
 		(const byte *)value,                      // Address of the value data to load
 		(length(value) + 1) * sizeof(character)); // Size of the value data in bytes, add 1 to write the null terminator
-	if (result != ERROR_SUCCESS) Report(_T("error regsetvalueex"));
+	if (result != ERROR_SUCCESS) Report(L"error regsetvalueex");
 }
