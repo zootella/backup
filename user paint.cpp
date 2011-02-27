@@ -33,6 +33,7 @@ void PaintCreate() {
 
 	// Make a font based on what the system uses in message boxes
 	NONCLIENTMETRICS info;
+	ZeroMemory(&info, sizeof(info));
 	info.cbSize = sizeof(info);
 	SystemParametersInfo(
 		SPI_GETNONCLIENTMETRICS, // System parameter to retrieve

@@ -59,6 +59,7 @@ HFONT CreateFont(read face, int points) {
 
 	// Create the font
 	LOGFONT info;
+	ZeroMemory(&info, sizeof(info));
 	info.lfHeight         = -points;                      // Point size, minus sign required
 	info.lfWidth          = 0;                            // Default width
 	info.lfEscapement     = 0;                            // Not rotated

@@ -59,4 +59,10 @@ C/C++, Precompiled Headers, Create/Use Precompiled Header: Not Using Precompiled
 Linker, Manifest File, Generate Manifest: No
 Manifest Tool, Input and Output, Embed Manifest: No
 
+Project, Properties, Configuration Properties, C/C++, Preprocessor, Preprocessor Definitions, Debug | Release
+WIN32
+_DEBUG | NDEBUG
+_WINDOWS
+_WIN32_WINNT=0x0501
+
 ==The end==
