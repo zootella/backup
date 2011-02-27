@@ -34,7 +34,7 @@ void PaintCreate() {
 	// Make a font based on what the system uses in message boxes
 	NONCLIENTMETRICS info;
 	ZeroMemory(&info, sizeof(info));
-	info.cbSize = sizeof(info);
+	info.cbSize = sizeof(info); // Must define _WIN32_WINNT=0x0501 for sizeof(info) to return the size SPI_GETNONCLIENTMETRICS expects
 	SystemParametersInfo(
 		SPI_GETNONCLIENTMETRICS, // System parameter to retrieve
 		sizeof(info),            // Size of the structure
