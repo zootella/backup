@@ -70,7 +70,7 @@ HFONT CreateFont(read face, int points) {
 	info.lfCharSet        = ANSI_CHARSET;                 // Use ANSI characters
 	info.lfOutPrecision   = OUT_DEFAULT_PRECIS;           // Default size precision
 	info.lfClipPrecision  = CLIP_DEFAULT_PRECIS;          // Default clipping behavior
-	info.lfQuality        = ANTIALIASED_QUALITY;          // Antialias if possible
+	info.lfQuality        = DEFAULT_QUALITY;              // Don't force antialiasing
 	info.lfPitchAndFamily = VARIABLE_PITCH | FF_DONTCARE; // Only used if the font name is unavailable
 	lstrcpy(info.lfFaceName, face);                       // Font name
 	HFONT font = CreateFontIndirect(&info);
