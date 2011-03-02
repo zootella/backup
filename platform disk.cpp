@@ -9,9 +9,6 @@
 #include "class.h"
 #include "function.h"
 
-// Global objects
-//extern handleitem Handle;
-
 // True if path is to a folder, drive root, or network share
 // Set create to true to make folders if necessary
 // Set write to true to also confirm we can write to it
