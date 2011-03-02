@@ -15,7 +15,7 @@ public:
 		handle = INVALID_HANDLE_VALUE;
 		ZeroMemory(&info, sizeof(info));
 		search = path;
-		if (list) search += "\\*.*";
+		if (list) search += L"\\*.*";
 
 		// We're not going to use this in a loop, run the single search now
 		if (!list) result();
@@ -33,14 +33,14 @@ public:
 			if (handle == INVALID_HANDLE_VALUE) return false; // Not found or other error
 
 			// Skip over "." and ".." at the start
-			if (info.cFileName != string(".") && info.cFileName != string("..")) return true;
+			if (info.cFileName != string(L".") && info.cFileName != string(L"..")) return true;
 		}
 
 		// Get the next file or folder in the list
 		while (FindNextFile(handle, &info)) {
 
 			// Skip over "." and ".." at the start
-			if (info.cFileName != string(".") && info.cFileName != string("..")) return true;
+			if (info.cFileName != string(L".") && info.cFileName != string(L"..")) return true;
 		}
 
 		// Done listing the files

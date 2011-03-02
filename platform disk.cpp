@@ -25,12 +25,12 @@ bool DiskFolder(read path, bool create, bool write) {
 	string b, build;
 
 	// Drive path, like "C:" or "C:\folder\subfolder"
-	if (clip(s, 1, 1) == ":") {
+	if (clip(s, 1, 1) == L":") {
 
 		// Loop making build like "C:", "C:\folder", "C:\folder\subfolder"
 		while (is(s)) {
 			split(s, L"\\", &b, &s);
-			if (is(build)) build += "\\";
+			if (is(build)) build += L"\\";
 			build += b;
 			if (!DiskFolderCheck(build, create)) return false; // Make it a folder
 		}

@@ -31,8 +31,8 @@ void deviceitem::OpenCreate() {
 	open = DeviceCreate;
 
 	// Create the device context
-	device = CreateDC(_T("DISPLAY"), NULL, NULL, NULL);
-	if (!device) Report(_T("error createdc"));
+	device = CreateDC(L"DISPLAY", NULL, NULL, NULL);
+	if (!device) Report(L"error createdc");
 }
 
 // Get the device context from the given window
@@ -45,7 +45,7 @@ void deviceitem::OpenGet(HWND newwindow) {
 	// Get the device context
 	window = newwindow;
 	device = GetDC(newwindow);
-	if (!device) Report(_T("error getdc"));
+	if (!device) Report(L"error getdc");
 }
 
 // Tell the system the program will start painting
@@ -58,7 +58,7 @@ void deviceitem::OpenPaint(HWND newwindow) {
 	// Paint the device context
 	window = newwindow;
 	device = BeginPaint(window, &paint);
-	if (!device) Report(_T("error beginpaint"));
+	if (!device) Report(L"error beginpaint");
 }
 
 // Restore the contents of the device context and end or delete it
@@ -71,8 +71,8 @@ deviceitem::~deviceitem() {
 	if (replacebackgroundcolor) SetBkColor(device, backgroundcolor);
 
 	// Close the device context
-	if      (open == DeviceCreate) { if (!DeleteDC(device))          Report(_T("error deletedc")); }
-	else if (open == DeviceGet)    { if (!ReleaseDC(window, device)) Report(_T("error releasedc")); }
+	if      (open == DeviceCreate) { if (!DeleteDC(device))          Report(L"error deletedc"); }
+	else if (open == DeviceGet)    { if (!ReleaseDC(window, device)) Report(L"error releasedc"); }
 	else if (open == DevicePaint)  { EndPaint(window, &paint); }
 }
 

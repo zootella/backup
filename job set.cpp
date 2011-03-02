@@ -32,13 +32,13 @@ void JobCompareError(read r) { sectionitem section; Job.compareerror++; JobError
 void JobError(read r) { sectionitem section;
 
 	// Add the given text to the bottom of the job's error list
-	if (is(Job.errors)) Job.errors += "\r\n";
+	if (is(Job.errors)) Job.errors += L"\r\n";
 	Job.errors += r;
 
 	// If there have been a huge number of errors, stop the job
 	Job.error++;
 	if (Job.error >= STOPERRORS) {
-		Job.errors += "\r\nStopped at " + numerals(STOPERRORS) + " errors";
+		Job.errors += L"\r\nStopped at " + numerals(STOPERRORS) + L" errors";
 		Job.stop = true;
 	}
 }

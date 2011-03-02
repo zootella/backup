@@ -35,7 +35,7 @@ COLORREF ColorMix(COLORREF color1, int amount1, COLORREF color2, int amount2) {
 	}
 
 	// Return the mixed color
-	return(RGB(red, green, blue));
+	return RGB(red, green, blue);
 }
 
 // Make a brushitem from the given color

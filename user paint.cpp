@@ -121,11 +121,11 @@ void Paint() {
 
 	// Pick colors for the background banner message
 	brushitem *field, *text, *label;
-	if      (Handle.display.banner == "start")   { field = &Handle.blue;   text = &Handle.lightblue;   label = &Handle.white; }
-	else if (Handle.display.banner == "running") { field = &Handle.yellow; text = &Handle.lightyellow; label = &Handle.black; }
-	else if (Handle.display.banner == "done")    { field = &Handle.green;  text = &Handle.lightgreen;  label = &Handle.black; }
-	else if (Handle.display.banner == "errors")  { field = &Handle.red;    text = &Handle.lightred;    label = &Handle.white; }
-	else                                         { field = &Handle.blue;   text = &Handle.lightblue;   label = &Handle.white; }
+	if      (Handle.display.banner == L"start")   { field = &Handle.blue;   text = &Handle.lightblue;   label = &Handle.white; }
+	else if (Handle.display.banner == L"running") { field = &Handle.yellow; text = &Handle.lightyellow; label = &Handle.black; }
+	else if (Handle.display.banner == L"done")    { field = &Handle.green;  text = &Handle.lightgreen;  label = &Handle.black; }
+	else if (Handle.display.banner == L"errors")  { field = &Handle.red;    text = &Handle.lightred;    label = &Handle.white; }
+	else                                          { field = &Handle.blue;   text = &Handle.lightblue;   label = &Handle.white; }
 
 	// Position and size child window controls
 	WindowSize(Handle.tasks, tasks);

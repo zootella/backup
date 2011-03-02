@@ -76,7 +76,7 @@ void EditAppend(HWND window, read r) {
 
 	// Add the given text to a new line at the bottom
 	string s = WindowTextGet(window); // Get the text that's already there, the user may have edited it
-	if (is(s)) s += "\r\n";           // If not blank, start with a newline to make sure r will be on its own line
+	if (is(s)) s += L"\r\n";          // If not blank, start with a newline to make sure r will be on its own line
 	s += r;                           // Add the given text
 	WindowTextSet(window, s);         // Put the edited text back into the control
 

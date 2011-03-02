@@ -10,7 +10,7 @@
 
 // Program build and name
 #define PROGRAMTEST false
-#define PROGRAMTITLE _T("Backup 2009 May 1")
+#define PROGRAMTITLE L"Backup 2009 May 1"
 
 // Program settings
 #define PULSE 100
@@ -19,8 +19,8 @@
 
 // Registry locations
 #define REGISTRYKEY  HKEY_CURRENT_USER
-#define REGISTRYPATH _T("Software\\Rocky Mountain Tools\\Backup")
-#define REGISTRYNAME _T("tasks")
+#define REGISTRYPATH L"Software\\Rocky Mountain Tools\\Backup"
+#define REGISTRYNAME L"tasks"
 
 // Timer
 #define TIMER_PULSE 1
