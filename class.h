@@ -1,4 +1,7 @@
 
+// Functions used below
+string LongPath(read path);
+
 // Get information about a single file, or list the contents of a folder
 class finditem {
 public:

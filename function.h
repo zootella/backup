@@ -125,4 +125,3 @@ void Test();
 
 
 
-string LongPath(read path);
