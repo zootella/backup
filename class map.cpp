@@ -17,7 +17,7 @@ bool mapitem::open(read path) {
 
 	// Open the file
 	file = CreateFile(
-		path,                      // Path and file name
+		LongPath(path),            // Path and file name
 		GENERIC_READ,              // Get read-only access
 		FILE_SHARE_READ,           // Allow other calls and processes to read the file while it's open
 		NULL,

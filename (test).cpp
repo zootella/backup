@@ -16,3 +16,11 @@ extern handleitem Handle;
 void Test() {
 
 }
+
+
+
+
+string LongPath(read path) {
+
+	return path;
+}

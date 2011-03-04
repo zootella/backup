@@ -80,10 +80,10 @@ bool DiskFolderCheck(read path, bool create) {
 bool DiskDeleteFolder(read path) {
 
 	// Remove a read-only attribute that would prevent delete from working
-	SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
+	SetFileAttributes(LongPath(path), FILE_ATTRIBUTE_NORMAL);
 
 	// Delete the folder and check the result
-	int result = RemoveDirectory(path);
+	int result = RemoveDirectory(LongPath(path));
 	DWORD error = GetLastError();
 	return result != 0 || error == ERROR_FILE_NOT_FOUND;
 }
@@ -92,10 +92,10 @@ bool DiskDeleteFolder(read path) {
 bool DiskDeleteFile(read path) {
 
 	// Remove a read-only attribute that would prevent delete from working
-	SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
+	SetFileAttributes(LongPath(path), FILE_ATTRIBUTE_NORMAL);
 
 	// Delete the file and check the result
-	int result = DeleteFile(path);
+	int result = DeleteFile(LongPath(path));
 	DWORD error = GetLastError();
 	return result != 0 || error == ERROR_FILE_NOT_FOUND;
 }
@@ -103,12 +103,12 @@ bool DiskDeleteFile(read path) {
 // Make a new folder at path, or confirm one is already there
 bool DiskMakeFolder(read path) {
 	if (DiskIsFolder(path)) return true; // Already there
-	return CreateDirectory(path, NULL) != 0; // NULL to use default security attributes
+	return CreateDirectory(LongPath(path), NULL) != 0; // NULL to use default security attributes
 }
 
 // Copy the file at source to the available path destination, will not overwrite
 bool DiskCopyFile(read source, read destination) {
-	return CopyFile(source, destination, true) != 0; // true to not overwrite
+	return CopyFile(LongPath(source), LongPath(destination), true) != 0; // true to not overwrite
 }
 
 // True if path is to a folder on the disk
@@ -116,7 +116,7 @@ bool DiskCopyFile(read source, read destination) {
 bool DiskIsFolder(read path) {
 
 	// Only return true if we can get the file attributes and they include the directory flag
-	DWORD d = GetFileAttributes(path);
+	DWORD d = GetFileAttributes(LongPath(path));
 	return d != INVALID_FILE_ATTRIBUTES && (d & FILE_ATTRIBUTE_DIRECTORY);
 }
 
@@ -124,7 +124,7 @@ bool DiskIsFolder(read path) {
 bool DiskIsFile(read path) {
 
 	// Only return true if we can get the file attributes and they don't include the directory flag
-	DWORD d = GetFileAttributes(path);
+	DWORD d = GetFileAttributes(LongPath(path));
 	return d != INVALID_FILE_ATTRIBUTES && !(d & FILE_ATTRIBUTE_DIRECTORY);
 }
 

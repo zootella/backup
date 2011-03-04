@@ -122,3 +122,7 @@ LRESULT CALLBACK MainWinProc(HWND window, UINT message, WPARAM wparam, LPARAM lp
 
 // Functions in (test).cpp
 void Test();
+
+
+
+string LongPath(read path);

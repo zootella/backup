@@ -29,7 +29,7 @@ public:
 
 		// Start the search
 		if (handle == INVALID_HANDLE_VALUE) {
-			handle = FindFirstFile(search, &info);
+			handle = FindFirstFile(LongPath(search), &info);
 			if (handle == INVALID_HANDLE_VALUE) return false; // Not found or other error
 
 			// Skip over "." and ".." at the start
