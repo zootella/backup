@@ -9,8 +9,8 @@
 // removed feature, safe to delete flag
 
 // Program build and name
-#define PROGRAMTEST true
-#define PROGRAMTITLE L"Backup 2009 May 1"
+#define PROGRAMTEST false
+#define PROGRAMTITLE L"Backup 2011 March 4"
 
 // Program settings
 #define PULSE 100

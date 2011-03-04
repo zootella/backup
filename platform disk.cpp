@@ -9,6 +9,21 @@
 #include "class.h"
 #include "function.h"
 
+// Prefix the given path before giving it to a system call so very long paths work
+string LongPath(read path) {
+
+	// Network path
+	if (starts(path, L"\\\\")) {                     // Raw             "\\server\share\folder"
+		return make(L"\\\\?\\UNC\\", clip(path, 2)); // Processed "\\?\UNC\server\share\folder"
+
+	// Disk path
+	} else {                             // Raw           "C:\folder"
+		string s = path;
+		if (trails(s, L":")) s += L"\\"; // Turn "C:" into "C:\" for GetFileAttributes
+		return make(L"\\\\?\\", s);      // Processed "\\?\C:\folder"
+	}
+}
+
 // True if path is to a folder, drive root, or network share
 // Set create to true to make folders if necessary
 // Set write to true to also confirm we can write to it
