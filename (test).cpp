@@ -18,6 +18,7 @@ void Test() {
 	string s;
 	s = LongPath(L"\\\\server\\share\\folder");
 	s = LongPath(L"C:\\folder");
+	s = LongPath(L"C:");
 
 
 
@@ -45,10 +46,13 @@ void Test() {
 string LongPath(read path) {
 
 	// Network path
-	if (starts(path, L"\\\\"))                       //       "\\server\share\folder"
+	if (starts(path, L"\\\\")) {                     //       "\\server\share\folder"
 		return make(L"\\\\?\\UNC\\", clip(path, 2)); // "\\?\UNC\server\share\folder"
 
 	// Disk path
-	else                               //     "C:\folder"
-		return make(L"\\\\?\\", path); // "\\?\C:\folder"
+	} else {                             //     "C:\folder"
+		string s = path;
+		if (trails(s, L":")) s += L"\\"; // Turn "C:" into "C:\" for GetFileAttributes
+		return make(L"\\\\?\\", s);      // "\\?\C:\folder"
+	}
 }
