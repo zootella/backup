@@ -31,32 +31,20 @@ void JobCompareError(read r) { sectionitem section; Job.compareerror++; JobError
 // Record an error
 void JobError(read r) { sectionitem section;
 
-	// Add the given text to the bottom of the job's error list
-	if (is(Job.errors)) Job.errors += L"\r\n";
-	Job.errors += r;
-
-	// If there have been a huge number of errors, stop the job
+	// Count the error
 	Job.error++;
-	if (Job.error >= STOPERRORS) {
-		Job.errors += L"\r\nStopped at " + numerals(STOPERRORS) + L" errors";
-		Job.stop = true;
-	}
 
+	// Make a line of text with the error
+	string s = make(r, L"\r\n");
 
-	/*
-	// Write the first 1000 errors to the screen
-	if 
+	// Show the first 1000 errors on the screen
+	if (Job.error <= STOPERRORS) Job.errors += s;
+	if (Job.error == STOPERRORS) Job.errors += L"Additional errors in log file\r\n"; // Also make a note for the 1000th error
 
-
-
-	// Write the error to the log file
-
-*/
+	// Write all the errors to the log file
+	if (Job.error == 1) JobErrorLog(s, true); // Clear the file
+	else                JobErrorLog(s);
 }
-
-
-
-
 
 // Append the given line of text to the log file
 bool JobErrorLog(read r, bool clear) {
@@ -90,15 +78,12 @@ bool JobErrorLog(read r, bool clear) {
 		SetFilePointer(file, NULL, NULL, FILE_END);
 	}
 
-	// Compose the given text as a complete line
-	string s = make(r, L"\r\n");
-
 	// Write it to the file
 	DWORD written;
 	int result = WriteFile(
 		file,                      // Open file handle
-		(LPVOID)(read)s,         // Pointer to data
-		length(s) * sizeof(WCHAR), // Number of bytes there to write
+		(LPVOID)r,                 // Pointer to data
+		length(r) * sizeof(WCHAR), // Number of bytes there to write
 		&written,                  // Number of bytes written
 		NULL);
 	if (!result) { CloseHandle(file); return false; }
@@ -107,4 +92,3 @@ bool JobErrorLog(read r, bool clear) {
 	CloseHandle(file);
 	return true;
 }
-
