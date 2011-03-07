@@ -118,6 +118,28 @@ int find(read r, read t, direction d, matching m) {
 	return -1;
 }
 
+// Takes text and tag, and direction and matching
+// Splits the text before the tag
+// Returns a string, the text from r if not found in either direction
+string before(read r, read t, direction d, matching m) {
+
+	// Use split
+	CString b, a;
+	split(r, t, &b, &a, d, m);
+	return b;
+}
+
+// Takes text and tag, and direction and matching
+// Splits the text after the tag
+// Returns a string, blank if not found in either direction
+string after(read r, read t, direction d, matching m) {
+
+	// Use split
+	CString b, a;
+	split(r, t, &b, &a, d, m);
+	return a;
+}
+
 // Takes text and tag, strings for before and after, and direction and matching
 // Splits the text around the tag, writing text in before and after
 // Returns nothing, puts all text in before and none in after if not found in either direction

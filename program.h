@@ -9,7 +9,7 @@
 // removed feature, safe to delete flag
 
 // Program build and name
-#define PROGRAMTEST false
+#define PROGRAMTEST true
 #define PROGRAMTITLE L"Backup 2011 March 4"
 
 // Program settings
@@ -29,9 +29,9 @@
 typedef unsigned __int64 big;
 
 // Text
-#define length lstrlenW      // Rename function
-typedef CString string;      // string is a CString object
-typedef const wchar_t *read; // read is a pointer to wide characters and a null terminator that will only be read
+#define length  lstrlenW // Rename function
+typedef CString string;  // string is a CString object
+typedef LPCWSTR read;    // read is a pointer to wide characters and a null terminator that will only be read
 
 // Text options
 enum direction {Forward,   Reverse};  // Default forward and the start, or reverse and the end

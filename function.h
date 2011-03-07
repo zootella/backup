@@ -19,6 +19,7 @@ void JobFolderError(read r);
 void JobCompareCount();
 void JobCompareError(read r);
 void JobError(read r);
+bool JobErrorLog(read r, bool clear = false);
 
 // Functions in platform disk.cpp
 bool DiskFolder(read path, bool create, bool write);
@@ -59,6 +60,8 @@ bool starts(read r, read t, matching m = Different);
 bool trails(read r, read t, matching m = Different);
 bool has(read r, read t, matching m = Different);
 int find(read r, read t, direction d = Forward, matching m = Different);
+string before(read r, read t, direction d = Forward, matching m = Different);
+string after(read r, read t, direction d = Forward, matching m = Different);
 void split(read r, read t, string *b, string *a, direction d = Forward, matching m = Different);
 string clip(read r, int startindex, int characters = -1);
 string off(read r, read t, direction d = Forward, matching m = Different);
@@ -122,6 +125,3 @@ LRESULT CALLBACK MainWinProc(HWND window, UINT message, WPARAM wparam, LPARAM lp
 
 // Functions in (test).cpp
 void Test();
-
-
-
