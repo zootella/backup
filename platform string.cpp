@@ -22,7 +22,7 @@ string make(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read 
 // Write the minus sign and number into text
 string numerals(int number) {
 
-	character bay[MAX_PATH];
+	WCHAR bay[MAX_PATH];
 	_itow_s(number, bay, MAX_PATH, 10); // The 10 is for base 10
 	return bay;
 }
@@ -77,9 +77,9 @@ int find(read r, read t, direction d, matching m) {
 	if (!rlength || !tlength || rlength < tlength) return -1;
 
 	// Variables for loop
-	bool valid;             // Valid tells if the tag is being found
-	int rindex, tindex;     // Scanning indexes
-	character rchar, tchar; // Characters
+	bool valid;         // Valid tells if the tag is being found
+	int rindex, tindex; // Scanning indexes
+	WCHAR rchar, tchar; // Characters
 
 	// Scan rindex between 0 and rlength - tlength in the desired direction
 	if (d == Forward) rindex = 0;
@@ -99,8 +99,8 @@ int find(read r, read t, direction d, matching m) {
 			// Uppercase them if matching was requested
 			if (m == Matching) {
 
-				rchar = (character)CharUpper((write)(ULONG_PTR)MAKELONG((WORD)rchar, 0));
-				tchar = (character)CharUpper((write)(ULONG_PTR)MAKELONG((WORD)tchar, 0));
+				rchar = (WCHAR)CharUpper((LPWSTR)(ULONG_PTR)MAKELONG((WORD)rchar, 0));
+				tchar = (WCHAR)CharUpper((LPWSTR)(ULONG_PTR)MAKELONG((WORD)tchar, 0));
 			}
 
 			// Mismatch found, set false and break

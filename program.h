@@ -28,15 +28,10 @@
 // Number types
 typedef unsigned __int64 big;
 
-// Text define
-#define SAFETY 8       // Make local buffers 8 bytes longer and make them easy to find
-#define length lstrlen // Rename function
-
-// Text types
-typedef CString string;    // string is a CString object
-typedef LPCTSTR read;      // read is a pointer to characters and a null terminator that will only be read
-typedef LPTSTR  write;     // write is a pointer to a character buffer
-typedef TCHAR   character; // character is a single character or characters in a buffer
+// Text
+#define length lstrlenW      // Rename function
+typedef CString string;      // string is a CString object
+typedef const wchar_t *read; // read is a pointer to wide characters and a null terminator that will only be read
 
 // Text options
 enum direction {Forward,   Reverse};  // Default forward and the start, or reverse and the end

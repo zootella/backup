@@ -58,7 +58,7 @@ string WindowTextGet(HWND window) {
 
 	// Open a string
 	string s;
-	write buffer = s.GetBuffer(size);
+	LPWSTR buffer = s.GetBuffer(size);
 
 	// Write the window text into the buffer
 	GetWindowText( // Writes all the text and a null terminator
@@ -220,7 +220,7 @@ UINT MenuShow(HMENU menu, int x, int y) {
 string DialogBrowse(read display) {
 
 	// Setup information for the dialog box
-	character name[MAX_PATH];
+	WCHAR name[MAX_PATH];
 	BROWSEINFO info;
 	info.hwndOwner      = Handle.window;        // Handle to parent window for the browse dialog
 	info.pidlRoot       = NULL;                 // Browse from the desktop
@@ -237,7 +237,7 @@ string DialogBrowse(read display) {
 	if (!list) return L""; // The user clicked Cancel or the close X
 
 	// Get the path the user chose
-	character buffer[MAX_PATH];
+	WCHAR buffer[MAX_PATH];
 	SHGetPathFromIDList(list, buffer);
 	CoTaskMemFree(list); // Free the COM memory the system allocated for us
 	return buffer;

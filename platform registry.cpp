@@ -61,7 +61,7 @@ string RegistryRead(HKEY root, read path, read name) {
 
 	// Open a string
 	string s;
-	write buffer = s.GetBuffer(size / sizeof(character)); // How many characters we'll write, including the null terminator
+	LPWSTR buffer = s.GetBuffer(size / sizeof(WCHAR)); // How many characters we'll write, including the null terminator
 
 	// Read the binary data
 	result = RegQueryValueEx(
@@ -87,11 +87,11 @@ void RegistryWrite(HKEY root, read path, read name, read value) {
 
 	// Set or make and set the text value
 	int result = RegSetValueEx(
-		registry.key,                             // Handle to an open key
-		name,                                     // Name of the value to set or make and set
+		registry.key,                         // Handle to an open key
+		name,                                 // Name of the value to set or make and set
 		0,
-		REG_SZ,                                   // Variable type is a null-terminated string
-		(const byte *)value,                      // Address of the value data to load
-		(length(value) + 1) * sizeof(character)); // Size of the value data in bytes, add 1 to write the null terminator
+		REG_SZ,                               // Variable type is a null-terminated string
+		(const byte *)value,                  // Address of the value data to load
+		(length(value) + 1) * sizeof(WCHAR)); // Size of the value data in bytes, add 1 to write the null terminator
 	if (result != ERROR_SUCCESS) Report(L"error regsetvalueex");
 }
