@@ -19,7 +19,9 @@ void JobFolderError(read r);
 void JobCompareCount();
 void JobCompareError(read r);
 void JobError(read r);
-bool JobErrorLog(read r, bool clear = false);
+string LogPath();
+bool LogDelete();
+bool LogAppend(read r);
 
 // Functions in platform disk.cpp
 bool DiskFolder(read path, bool create, bool write);

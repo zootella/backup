@@ -48,6 +48,9 @@ void JobStart() { sectionitem section;
 	Job.tasks = WindowTextGet(Handle.tasks);
 	RegistryWrite(REGISTRYKEY, REGISTRYPATH, REGISTRYNAME, Job.tasks);
 
+	// Delete the log file from last time
+	LogDelete();
+
 	// Start a new thread that will perform all the tasks
 	BeginThread(Tasks); // Have the thread run the Tasks() function
 }

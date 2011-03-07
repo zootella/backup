@@ -42,22 +42,30 @@ void JobError(read r) { sectionitem section;
 	if (Job.error == STOPERRORS) Job.errors += L"Additional errors in log file\r\n"; // Also make a note for the 1000th error
 
 	// Write all the errors to the log file
-	if (Job.error == 1) JobErrorLog(s, true); // Clear the file
-	else                JobErrorLog(s);
+	LogAppend(s);
+}
+
+// Path to the log file named backup.txt next to this running exe
+string LogPath() {
+
+	WCHAR bay[MAX_PATH];
+	lstrcpy(bay, L"");
+	GetModuleFileName(NULL, bay, MAX_PATH);
+	return before(bay, L"\\", Reverse) + L"\\backup.txt";
+}
+
+// Delete the log file to write a new one from the start
+bool LogDelete() {
+
+	return DiskDeleteFile(LogPath());
 }
 
 // Append the given line of text to the log file
-bool JobErrorLog(read r, bool clear) {
-
-	// Compose path to log file named backup.txt next to this running exe
-	WCHAR bay[MAX_PATH];
-	lstrcpy(bay, L"");
-	if (!GetModuleFileName(NULL, bay, MAX_PATH)) return false;
-	string path = before(bay, L"\\", Reverse) + L"\\backup.txt";
+bool LogAppend(read r) {
 
 	// Open the file there or create one there and open it
 	HANDLE file = CreateFile(
-		LongPath(path),        // Path and file name
+		LongPath(LogPath()),   // Path and file name
 		GENERIC_WRITE,         // Only need to write
 		0,                     // No sharing
 		NULL,
@@ -66,17 +74,8 @@ bool JobErrorLog(read r, bool clear) {
 		NULL);
 	if (file == INVALID_HANDLE_VALUE) return false;
 
-	// Clear the file
-	if (clear) {
-
-		SetFilePointer(file, NULL, NULL, FILE_BEGIN);
-		if (!SetEndOfFile(file)) { CloseHandle(file); return false; }
-
-	// Append this new line to the end
-	} else {
-
-		SetFilePointer(file, NULL, NULL, FILE_END);
-	}
+	// Move to the end of the file
+	SetFilePointer(file, NULL, NULL, FILE_END);
 
 	// Write it to the file
 	DWORD written;
