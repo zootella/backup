@@ -207,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\platform log.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\platform number.cpp"
 				>
 			</File>

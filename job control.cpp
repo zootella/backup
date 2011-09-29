@@ -49,7 +49,7 @@ void JobStart() { sectionitem section;
 	RegistryWrite(REGISTRYKEY, REGISTRYPATH, REGISTRYNAME, Job.tasks);
 
 	// Delete the log file from last time
-	LogDelete();
+	LogDeleteOld();
 
 	// Start a new thread that will perform all the tasks
 	BeginThread(Tasks); // Have the thread run the Tasks() function

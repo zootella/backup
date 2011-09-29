@@ -20,11 +20,18 @@ string make(read r1, read r2, read r3, read r4, read r5, read r6, read r7, read 
 }
 
 // Write the minus sign and number into text
-string numerals(int number) {
+string numerals(int number, int width) {
 
 	WCHAR bay[MAX_PATH];
 	_itow_s(number, bay, MAX_PATH, 10); // The 10 is for base 10
-	return bay;
+	string s = bay;
+
+	if (width > 0) { // Minimum width requested
+		while (length(s) < width) { // Add 0s at the start until it's wide enough
+			s = L"0" + s;
+		}
+	}
+	return s;
 }
 
 // True if r has text

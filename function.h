@@ -19,9 +19,6 @@ void JobFolderError(read r);
 void JobCompareCount();
 void JobCompareError(read r);
 void JobError(read r);
-string LogPath();
-bool LogDelete();
-bool LogAppend(read r);
 
 // Functions in platform disk.cpp
 bool DiskFolder(read path, bool create, bool write);
@@ -34,6 +31,21 @@ bool DiskIsFolder(read path);
 bool DiskIsFile(read path);
 bool DiskSameFile(read path1, finditem *f2);
 bool DiskCompareFile(read path1, read path2);
+
+// Functions in platform log.cpp
+
+//old
+string LogPathOld();
+bool LogDeleteOld();
+bool LogAppendOld(read r);
+
+//new
+string LogPathHash(read folder);
+string LogPathError();
+bool LogDelete(read path);
+HANDLE LogOpen(read path);
+bool LogAppend(HANDLE file, read r);
+bool LogClose(HANDLE file);
 
 // Functions in platform number.cpp
 big Combine(DWORD high, DWORD low);
@@ -55,7 +67,7 @@ void RegistryWrite(HKEY root, read path, read name, read value);
 
 // Functions in platform string.cpp
 string make(read r1 = L"", read r2 = L"", read r3 = L"", read r4 = L"", read r5 = L"", read r6 = L"", read r7 = L"", read r8 = L"", read r9 = L"");
-string numerals(int number);
+string numerals(int number, int width = 0);
 bool is(read r);
 bool isblank(read r);
 bool starts(read r, read t, matching m = Different);
