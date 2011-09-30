@@ -61,7 +61,7 @@ bool LogAppendOld(read r) {
 //new
 
 // Takes the path to the folder to hash
-// Compose the path to the hash file like "Hash 2011-09-28 13.59.12.345 Folder Name.txt" next to this running exe
+// Compose the path to the hash file like "Hash 2011-Sep-29 8;50p 41.084s Folder Name.txt" next to this running exe
 string LogPathHash(read folder) {
 
 	// Get the local time right now
