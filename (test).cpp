@@ -15,4 +15,12 @@ extern handleitem Handle;
 // Run a snippet of test code
 void Test() {
 
+
+	string s;
+	s = LogPath(L"hello");
+	s = LogPathError();
+	s = LogPathHash(L"E:\\Desk\\test");
+
+
+
 }

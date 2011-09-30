@@ -42,6 +42,7 @@ bool LogAppendOld(read r);
 //new
 string LogPathHash(read folder);
 string LogPathError();
+string LogPath(read name);
 bool LogDelete(read path);
 HANDLE LogOpen(read path);
 bool LogAppend(HANDLE file, read r);

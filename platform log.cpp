@@ -60,8 +60,8 @@ bool LogAppendOld(read r) {
 
 //new
 
-// Takes the path to a drive, share, or folder to hash, like "C:", "C:\folder", "\\computer\\share", or "\\computer\\share\\folder", without a trailing slash
-// Return the path to the hash file like "C:\folder\Hash 2011-09-28 13.59.12.345 folder.txt" inside the given folder path
+// Takes the path to the folder to hash
+// Compose the path to the hash file like "Hash 2011-09-28 13.59.12.345 Folder Name.txt" next to this running exe
 string LogPathHash(read folder) {
 
 	// Get the local time right now
@@ -105,16 +105,23 @@ string LogPathHash(read folder) {
 	if (is(name)) name = L" " + name;
 
 	// Put it all together
-	return string(folder) + L"\\Hash " + year + L"-" + month + L"-" + day + L" " + hour + L";" + minute + m + L" " + second + L"." + millisecond + L"s" + name + L".txt";
+	return LogPath(make(L"Hash ", year, L"-", month, L"-", day, L" ", hour, L";") + make(minute, m, L" ", second, L".", millisecond, L"s", name));
 }
 
 // Path to the log file named backup.txt next to this running exe
 string LogPathError() {
 
+	return LogPath(L"backup");
+}
+
+// Takes a name like "backup" without the trailing ".txt" extension
+// Composes the path to the log file with the given name next to this running exe
+string LogPath(read name) {
+
 	WCHAR bay[MAX_PATH];
 	lstrcpy(bay, L"");
 	GetModuleFileName(NULL, bay, MAX_PATH);
-	return before(bay, L"\\", Reverse) + L"\\backup.txt";
+	return make(before(bay, L"\\", Reverse), L"\\", string(name), L".txt");
 }
 
 // Delete the log file at the given path to write a new one there from the start
