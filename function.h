@@ -35,8 +35,6 @@ bool DiskCompareFile(read path1, read path2);
 // Functions in platform log.cpp
 
 //old
-string LogPathOld();
-bool LogDeleteOld();
 bool LogAppendOld(read r);
 
 //new

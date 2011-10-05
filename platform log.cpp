@@ -11,27 +11,13 @@
 
 //old
 
-// Path to the log file named backup.txt next to this running exe
-string LogPathOld() {
-
-	WCHAR bay[MAX_PATH];
-	lstrcpy(bay, L"");
-	GetModuleFileName(NULL, bay, MAX_PATH);
-	return before(bay, L"\\", Reverse) + L"\\backup.txt";
-}
-
-// Delete the log file to write a new one from the start
-bool LogDeleteOld() {
-
-	return DiskDeleteFile(LogPathOld());
-}
 
 // Append the given line of text to the log file
 bool LogAppendOld(read r) {
 
 	// Open the file there or create one there and open it
 	HANDLE file = CreateFile(
-		LongPath(LogPathOld()),   // Path and file name
+		LongPath(LogPathError()),   // Path and file name
 		GENERIC_WRITE,         // Only need to write
 		0,                     // No sharing
 		NULL,

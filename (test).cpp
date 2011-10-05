@@ -15,12 +15,4 @@ extern handleitem Handle;
 // Run a snippet of test code
 void Test() {
 
-	//replace log path old with log path error
-
-	string s;
-	s = LogPathOld();
-	s = LogPathError();
-
-
-
 }
