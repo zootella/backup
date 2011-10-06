@@ -9,45 +9,6 @@
 #include "class.h"
 #include "function.h"
 
-//old
-
-
-/*
-// Append the given line of text to the log file
-bool LogAppendOld(read r) {
-
-	// Open the file there or create one there and open it
-	HANDLE file = CreateFile(
-		LongPath(LogPathError()),   // Path and file name
-		GENERIC_WRITE,         // Only need to write
-		0,                     // No sharing
-		NULL,
-		OPEN_ALWAYS,           // Create a new file here or open one already here
-		FILE_ATTRIBUTE_NORMAL, // Normal attributes
-		NULL);
-	if (file == INVALID_HANDLE_VALUE) return false;
-
-	// Move to the end of the file
-	SetFilePointer(file, NULL, NULL, FILE_END);
-
-	// Write it to the file
-	DWORD written;
-	int result = WriteFile(
-		file,                      // Open file handle
-		(LPVOID)r,                 // Pointer to data
-		length(r) * sizeof(WCHAR), // Number of bytes there to write
-		&written,                  // Number of bytes written
-		NULL);
-	if (!result) { CloseHandle(file); return false; }
-
-	// Close the file
-	CloseHandle(file);
-	return true;
-}
-*/
-
-//new
-
 // Takes the path to the folder to hash
 // Compose the path to the hash file like "Hash 2011-Sep-29 8;50p 41.084s Folder Name.txt" next to this running exe
 string LogPathHash(read folder) {
@@ -157,4 +118,3 @@ bool LogClose(HANDLE file) {
 	if (!CloseHandle(file)) return false;
 	return true;
 }
-
