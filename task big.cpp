@@ -54,6 +54,18 @@ DWORD WINAPI Tasks() {
 	return 0;
 }
 
+// Hash folder
+void TaskHash(read path) {
+
+	// Make sure path is to a folder
+	if (!DiskFolder(path, false, false)) { JobError(make(L"Cannot hash \"", path, L"\"")); return; }
+
+	/*
+	// Hash folder
+	TaskHashFolder(path); 
+	*/
+}
+
 // Delete path
 void TaskDelete(read path) {
 

@@ -42,5 +42,5 @@ void JobError(read r) { sectionitem section;
 	if (Job.error == STOPERRORS) Job.errors += L"Additional errors in log file\r\n"; // Also make a note for the 1000th error
 
 	// Write all the errors to the log file
-	LogAppendOld(s);
+	LogAppend(Job.log, s);
 }

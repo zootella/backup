@@ -33,11 +33,6 @@ bool DiskSameFile(read path1, finditem *f2);
 bool DiskCompareFile(read path1, read path2);
 
 // Functions in platform log.cpp
-
-//old
-bool LogAppendOld(read r);
-
-//new
 string LogPathHash(read folder);
 string LogPathError();
 string LogPath(read name);

@@ -290,4 +290,6 @@ public:
 	int      fileerror;    // Number of file errors
 	int      compare;      // Number of file comparisons done
 	int      compareerror; // Number of file compare errors
+	HANDLE   log;          // Handle to open error log file
+	HANDLE   hash;         // Handle to open hash log file, null when between hash tasks
 };

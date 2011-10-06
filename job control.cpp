@@ -28,6 +28,7 @@ void JobReset() { sectionitem section;
 	Job.error = 0;
 	Job.folder = Job.file = Job.compare = 0;
 	Job.foldererror = Job.fileerror = Job.compareerror = 0;
+	Job.log = Job.hash = NULL;
 
 	// Load tasks text from the registry to the tasks box
 	string s = RegistryRead(REGISTRYKEY, REGISTRYPATH, REGISTRYNAME);
@@ -48,8 +49,9 @@ void JobStart() { sectionitem section;
 	Job.tasks = WindowTextGet(Handle.tasks);
 	RegistryWrite(REGISTRYKEY, REGISTRYPATH, REGISTRYNAME, Job.tasks);
 
-	// Delete the log file from last time
-	DiskDeleteFile(LogPathError());
+	// Delete the log file from last time and open a new one
+	LogDelete(LogPathError());
+	Job.log = LogOpen(LogPathError());
 
 	// Start a new thread that will perform all the tasks
 	BeginThread(Tasks); // Have the thread run the Tasks() function
@@ -90,4 +92,7 @@ void JobDone() { sectionitem section;
 
 	// Clear the last task it did, this would show up in status
 	JobTask(L"");
+
+	// Close the error log file
+	LogClose(Job.log);
 }
