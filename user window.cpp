@@ -140,7 +140,8 @@ LRESULT CALLBACK MainWinProc(HWND window, UINT message, WPARAM wparam, LPARAM lp
 				RECT rectangle;
 				if (!GetWindowRect(Handle.task, &rectangle)) Report(L"error getwindowrect");
 				UINT choice = MenuShow(Handle.menu, rectangle.left, rectangle.bottom); // Wait here for the user to make a choice
-				if      (choice == ID_TASK_DELETE)        ButtonDelete();
+				if      (choice == ID_TASK_HASH)          ButtonHash();
+				else if (choice == ID_TASK_DELETE)        ButtonDelete();
 				else if (choice == ID_TASK_COPY)          ButtonCopy();
 				else if (choice == ID_TASK_COMPARE)       ButtonCompare();
 				else if (choice == ID_TASK_UPDATE)        ButtonUpdate();

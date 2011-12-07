@@ -12,6 +12,16 @@
 // Global objects
 extern handleitem Handle;
 
+// Hash the contents of the folder at path
+void TaskHashFolder(read path, HANDLE log) {
+
+}
+
+// Hash the file at path
+void TaskHashFile(read path, HANDLE log) {
+
+}
+
 // Delete the contents of the folder at path, and then the folder itself
 void TaskDeleteFolder(read path) {
 

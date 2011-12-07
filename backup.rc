@@ -65,6 +65,7 @@ MENU_CONTEXT MENU
 BEGIN
     POPUP "Task"
     BEGIN
+        MENUITEM "Hash",                        ID_TASK_HASH
         MENUITEM "Delete",                      ID_TASK_DELETE
         MENUITEM "Copy",                        ID_TASK_COPY
         MENUITEM "Compare",                     ID_TASK_COMPARE

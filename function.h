@@ -96,12 +96,15 @@ string DialogBrowse(read display);
 
 // Functions in task big.cpp
 DWORD WINAPI Tasks();
+void TaskHash(read path);
 void TaskDelete(read path);
 void TaskCopy(read source, read destination);
 void TaskCompare(read source, read destination);
 void TaskUpdate(read source, read destination, bool compare);
 
 // Functions in task small.cpp
+void TaskHashFolder(read path, HANDLE log);
+void TaskHashFile(read path, HANDLE log);
 void TaskDeleteFolder(read path);
 void TaskDeleteFile(read path);
 void TaskCopyFolder(read source, read destination, bool compare);
@@ -114,6 +117,7 @@ void TaskUpdateFill(read source, read destination, bool compare);
 
 // Functions in user button.cpp
 void ButtonClear();
+void ButtonHash();
 void ButtonDelete();
 void ButtonCopy();
 void ButtonCompare();

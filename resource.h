@@ -3,12 +3,13 @@
 // Used by Backup.rc
 //
 #define IDR_MENU2                       103
-#define ID_TASK_DELETE                  40001
-#define ID_TASK_COPY                    40002
-#define ID_TASK_COMPARE                 40003
-#define ID_TASK_UPDATE                  40004
-#define ID_TASK_UPDATECOMPARE           40005
-#define ID_TEST                         40006
+#define ID_TASK_HASH                    40001
+#define ID_TASK_DELETE                  40002
+#define ID_TASK_COPY                    40003
+#define ID_TASK_COMPARE                 40004
+#define ID_TASK_UPDATE                  40005
+#define ID_TASK_UPDATECOMPARE           40006
+#define ID_TEST                         40007
 
 // Next default values for new objects
 // 

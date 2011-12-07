@@ -38,7 +38,8 @@ DWORD WINAPI Tasks() {
 			destination = off(destination, L"\\", Reverse);
 
 			// Run the task
-			if      (task == L"Delete")         TaskDelete(source);
+			if      (task == L"Hash")           TaskHash(source);
+			else if (task == L"Delete")         TaskDelete(source);
 			else if (task == L"Copy")           TaskCopy(source, destination);
 			else if (task == L"Compare")        TaskCompare(source, destination);
 			else if (task == L"Update")         TaskUpdate(source, destination, false);
@@ -60,10 +61,23 @@ void TaskHash(read path) {
 	// Make sure path is to a folder
 	if (!DiskFolder(path, false, false)) { JobError(make(L"Cannot hash \"", path, L"\"")); return; }
 
-	/*
+	// Create and open a file to list the hashes
+	HANDLE log = LogOpen(LogPathHash(path));
+	if (!log) { JobError(make(L"Cannot write \"", LogPathHash(path), L"\"")); return; }
+
+	// Write the header
+	LogAppend(log, make(L"Hash of \"", path, L"\" on (date and time)", L"\r\n"));
+	LogAppend(log, L"\r\n");
+	LogAppend(log, L"---- start ----\r\n");
+	LogAppend(log, L"\r\n");
+
 	// Hash folder
-	TaskHashFolder(path); 
-	*/
+	TaskHashFolder(path, log);
+
+	// Write the footer
+	LogAppend(log, L"\r\n");
+	LogAppend(log, L"----  end  ----\r\n");
+	LogClose(log);
 }
 
 // Delete path
@@ -73,7 +87,7 @@ void TaskDelete(read path) {
 	if (!DiskFolder(path, false, true)) { JobError(make(L"Cannot write \"", path, L"\"")); return; }
 
 	// Delete path
-	TaskDeleteFolder(path); 
+	TaskDeleteFolder(path);
 }
 
 // Copy source to destination

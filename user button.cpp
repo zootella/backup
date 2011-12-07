@@ -19,6 +19,14 @@ void ButtonClear() {
 	WindowTextSet(Handle.tasks, L"");
 }
 
+// The user clicked the Hash task menu item
+void ButtonHash() {
+
+	// Let the user choose folders and list the task
+	string path = DialogBrowse(L"Choose the folder to hash.");
+	EditAppend(Handle.tasks, L"Hash \"" + path + L"\"");
+}
+
 // The user clicked the Delete task menu item
 void ButtonDelete() {
 
