@@ -31,13 +31,14 @@ bool DiskIsFolder(read path);
 bool DiskIsFile(read path);
 bool DiskSameFile(read path1, finditem *f2);
 bool DiskCompareFile(read path1, read path2);
+bool DiskHashFile(read path, string *hash);
 
 // Functions in platform log.cpp
-string LogPathHash(read folder);
+string LogPathHash();
 string LogPathError();
 string LogPath(read name);
 bool LogDelete(read path);
-HANDLE LogOpen(read path);
+HANDLE LogOpen(read path, read title);
 bool LogAppend(HANDLE file, read r);
 bool LogClose(HANDLE file);
 
@@ -77,6 +78,7 @@ string trim(read r, read t1 = L"", read t2 = L"", read t3 = L"");
 string saynumber(int number, read name);
 string insertcommas(read r);
 string saytime(DWORD time);
+string saydate(read separator);
 
 // Functions in platform window.cpp
 void Report(read r);

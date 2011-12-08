@@ -62,21 +62,14 @@ void TaskHash(read path) {
 	if (!DiskFolder(path, false, false)) { JobError(make(L"Cannot hash \"", path, L"\"")); return; }
 
 	// Create and open a file to list the hashes
-	HANDLE log = LogOpen(LogPathHash(path));
-	if (!log) { JobError(make(L"Cannot write \"", LogPathHash(path), L"\"")); return; }
-
-	// Write the header
-	LogAppend(log, make(L"Hash of \"", path, L"\" on (date and time)", L"\r\n"));
-	LogAppend(log, L"\r\n");
-	LogAppend(log, L"---- start ----\r\n");
-	LogAppend(log, L"\r\n");
+	string hash = LogPathHash();
+	HANDLE log = LogOpen(hash, make(L"Hash of \"", path, L"\""));
+	if (!log) { JobError(make(L"Cannot write \"", hash, L"\"")); return; }
 
 	// Hash folder
 	TaskHashFolder(path, log);
 
-	// Write the footer
-	LogAppend(log, L"\r\n");
-	LogAppend(log, L"----  end  ----\r\n");
+	// Write the footer and close the file
 	LogClose(log);
 }
 

@@ -9,68 +9,26 @@
 #include "class.h"
 #include "function.h"
 
-// Takes the path to the folder to hash
-// Compose the path to the hash file like "Hash 2011-Sep-29 8;50p 41.084s Folder Name.txt" next to this running exe
-string LogPathHash(read folder) {
+// Compose the path to the hash log file like "C:\Programs\Hash 2011-Sep-29 8;50p 41.084s.html" next to this running exe
+string LogPathHash() {
 
-	// Get the local time right now
-	SYSTEMTIME info;
-	ZeroMemory(&info, sizeof(info));
-	GetLocalTime(&info);
-
-	// Compose month text
-	string month;
-	switch (info.wMonth) {
-		case  1: month = L"Jan"; break;
-		case  2: month = L"Feb"; break;
-		case  3: month = L"Mar"; break;
-		case  4: month = L"Apr"; break;
-		case  5: month = L"May"; break;
-		case  6: month = L"Jun"; break;
-		case  7: month = L"Jul"; break;
-		case  8: month = L"Aug"; break;
-		case  9: month = L"Sep"; break;
-		case 10: month = L"Oct"; break;
-		case 11: month = L"Nov"; break;
-		case 12: month = L"Dec"; break;
-	}
-
-	// Prepare hour and AM/PM text
-	string m = info.wHour < 12 ? L"a" : L"p";
-	int h = info.wHour;
-	if (!h) h = 12;
-	if (h > 12) h -= 12;
-
-	// Turn numbers into text
-	string year        = numerals(info.wYear);
-	string day         = numerals(info.wDay);
-	string hour        = numerals(h);
-	string minute      = numerals(info.wMinute, 2);
-	string second      = numerals(info.wSecond, 2);
-	string millisecond = numerals(info.wMilliseconds, 3);
-
-	// Get the folder name, blank if folder is a drive root, the share name if folder is the path to a network share root
-	string name = after(folder, L"\\", Reverse);
-	if (is(name)) name = L" " + name;
-
-	// Put it all together
-	return LogPath(make(L"Hash ", year, L"-", month, L"-", day, L" ", hour, L";") + make(minute, m, L" ", second, L".", millisecond, L"s", name));
+	return LogPath(make(L"Hash ", saydate(L";")));
 }
 
-// Path to the log file named backup.txt next to this running exe
+// Path to the log file named Backup.html next to this running exe
 string LogPathError() {
 
-	return LogPath(L"backup");
+	return LogPath(L"Backup");
 }
 
-// Takes a name like "backup" without the trailing ".txt" extension
+// Takes a name like "Backup" without the trailing ".html" extension
 // Composes the path to the log file with the given name next to this running exe
 string LogPath(read name) {
 
 	WCHAR bay[MAX_PATH];
 	lstrcpy(bay, L"");
 	GetModuleFileName(NULL, bay, MAX_PATH);
-	return make(before(bay, L"\\", Reverse), L"\\", string(name), L".txt");
+	return make(before(bay, L"\\", Reverse), L"\\", string(name), L".html");
 }
 
 // Delete the log file at the given path to write a new one there from the start
@@ -80,7 +38,7 @@ bool LogDelete(read path) {
 }
 
 // Create a new log file at the given path and open it
-HANDLE LogOpen(read path) {
+HANDLE LogOpen(read path, read title) {
 
 	// Open the file there or create one there and open it
 	HANDLE file = CreateFile(
@@ -92,6 +50,17 @@ HANDLE LogOpen(read path) {
 		FILE_ATTRIBUTE_NORMAL, // Normal attributes
 		NULL);
 	if (file == INVALID_HANDLE_VALUE) return NULL;
+
+	// Start the file with two bytes that tell programs that unicode characters follow
+	LogAppend(file, L"\ufeff"); // Writes the 2 bytes ff fe, with ff first
+
+	// Write the HTML and text headers
+	LogAppend(file, L"<html><head><title>Backup</title></head><body><pre style=\"font: 8pt Courier New\">\r\n");
+	LogAppend(file, make(title, L"\r\n")); // Include the given title line of text
+	LogAppend(file, L"\r\n");
+	LogAppend(file, make(L"---- start ---- ", saydate(L":"), L" ----\r\n"));
+
+	// Return the open file handle
 	return file;
 }
 
@@ -115,6 +84,11 @@ bool LogAppend(HANDLE file, read r) {
 // Close the given open log file
 bool LogClose(HANDLE file) {
 
+	// Write the text and HTML footers
+	LogAppend(file, make(L"---- end ---- ", saydate(L":"), L" ----\r\n"));
+	LogAppend(file, L"</pre></body></html>\r\n");
+
+	// Close the file
 	if (!CloseHandle(file)) return false;
 	return true;
 }

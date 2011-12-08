@@ -185,3 +185,27 @@ bool DiskCompareFile(read path1, read path2) {
 		if (map1.done()) return true; // Nothing after this block
 	}
 }
+
+// Hash the file at path, saving the hash value in base 16 in the given string
+bool DiskHashFile(read path, string *hash) {
+
+	// Hash each byte of data
+	mapitem map;
+	if (!map.open(path)) return false; // Open the file
+	while (true) {
+		if (!map.set()) return false; // View the next block
+
+		//hash the file
+
+
+		// Nothing after this block
+		if (map.done()) {
+
+			//output the hash value
+			*hash = L"hashhashhashhashhash";
+			
+
+			return true;
+		}
+	}
+}

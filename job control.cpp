@@ -51,7 +51,7 @@ void JobStart() { sectionitem section;
 
 	// Delete the log file from last time and open a new one
 	LogDelete(LogPathError());
-	Job.log = LogOpen(LogPathError());
+	Job.log = LogOpen(LogPathError(), L"Errors");
 
 	// Start a new thread that will perform all the tasks
 	BeginThread(Tasks); // Have the thread run the Tasks() function
@@ -93,6 +93,6 @@ void JobDone() { sectionitem section;
 	// Clear the last task it did, this would show up in status
 	JobTask(L"");
 
-	// Close the error log file
+	// Write the footer and close the error log file
 	LogClose(Job.log);
 }

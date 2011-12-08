@@ -275,3 +275,46 @@ string saytime(DWORD time) {
 	s += L" " + saynumber(second, L"second");
 	return trim(s, L" ");
 }
+
+// Given a separator like ":" or ";" for a file name, compose date and time text like "2011-Sep-29 8:50p 41.084s"
+string saydate(read separator) {
+
+	// Get the local time right now
+	SYSTEMTIME info;
+	ZeroMemory(&info, sizeof(info));
+	GetLocalTime(&info);
+
+	// Compose month text
+	string month;
+	switch (info.wMonth) {
+		case  1: month = L"Jan"; break;
+		case  2: month = L"Feb"; break;
+		case  3: month = L"Mar"; break;
+		case  4: month = L"Apr"; break;
+		case  5: month = L"May"; break;
+		case  6: month = L"Jun"; break;
+		case  7: month = L"Jul"; break;
+		case  8: month = L"Aug"; break;
+		case  9: month = L"Sep"; break;
+		case 10: month = L"Oct"; break;
+		case 11: month = L"Nov"; break;
+		case 12: month = L"Dec"; break;
+	}
+
+	// Prepare hour and AM/PM text
+	string m = info.wHour < 12 ? L"a" : L"p";
+	int h = info.wHour;
+	if (!h) h = 12;
+	if (h > 12) h -= 12;
+
+	// Turn numbers into text
+	string year        = numerals(info.wYear);
+	string day         = numerals(info.wDay);
+	string hour        = numerals(h);
+	string minute      = numerals(info.wMinute, 2);
+	string second      = numerals(info.wSecond, 2);
+	string millisecond = numerals(info.wMilliseconds, 3);
+
+	// Put it all together
+	return make(year, L"-", month, L"-", day, L" ", hour, separator) + make(minute, m, L" ", second, L".", millisecond, L"s");
+}

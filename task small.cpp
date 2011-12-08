@@ -15,11 +15,31 @@ extern handleitem Handle;
 // Hash the contents of the folder at path
 void TaskHashFolder(read path, HANDLE log) {
 
+	// List the folder in the hash log
+	LogAppend(log, make(L"                      ", path, L"\r\n")); // Blank space in place of the hash value
+
+	// Hash the contents of the folder
+	finditem f(path);
+	while (f.result()) {
+
+		// Hash the subfolder or file
+		if (f.folder())
+			TaskHashFolder(make(path, L"\\", f.info.cFileName), log);
+		else
+			TaskHashFile(make(path, L"\\", f.info.cFileName), log);
+
+		if (!JobContinue()) return;
+	}
 }
 
 // Hash the file at path
 void TaskHashFile(read path, HANDLE log) {
 
+	// Hash the file
+	string s = JobTask(make(L"Hashing \"", path, L"\""));
+	string hash = L"ERROR! ERROR! ERROR!";
+	if (!DiskHashFile(path, &hash)) JobError(s);
+	LogAppend(log, make(hash, L"  ", path, L"\r\n"));
 }
 
 // Delete the contents of the folder at path, and then the folder itself
