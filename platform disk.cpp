@@ -203,12 +203,12 @@ bool DiskHashFile(read path, string *s) {
 
 	// Hash each byte of data
 	mapitem map;
-	if (!map.open(path)) return false; // Open the file
+	if (!map.open(path)) { CryptDestroyHash(hash); return false; } // Open the file
 	while (true) {
-		if (!map.set()) return false; // View the next block
+		if (!map.set()) { CryptDestroyHash(hash); return false; } // View the next block
 
 		// Hash the next block
-		if (!CryptHashData(hash, (byte *)map.view, (DWORD)map.s, 0)) return false;
+		if (!CryptHashData(hash, (byte *)map.view, (DWORD)map.s, 0)) { CryptDestroyHash(hash); return false; }
 
 		// Nothing after this block
 		if (map.done()) {
@@ -216,17 +216,16 @@ bool DiskHashFile(read path, string *s) {
 			// Get the hash value
 			BYTE value[20];
 			DWORD size = 20;
-			if (CryptGetHashParam(hash, HP_HASHVAL, value, &size, 0)) {
+			if (!CryptGetHashParam(hash, HP_HASHVAL, value, &size, 0)) { CryptDestroyHash(hash); return false; }
 
-				// Convert the hash value into base 16 text
-				WCHAR bay[MAX_PATH];
-				for (int i = 0; i < 20; i++) {
-					wsprintf(bay + (i * 2), L"%02x", value[i]); // Each call writes two wide characters and a null terminator
-				}
-
-				// Save it in the given string
-				*s = bay;
+			// Convert the hash value into base 16 text
+			WCHAR bay[MAX_PATH];
+			for (int i = 0; i < 20; i++) {
+				wsprintf(bay + (i * 2), L"%02x", value[i]); // Each call writes two wide characters and a null terminator
 			}
+
+			// Save it in the given string
+			*s = bay;
 
 			// Erase the hash
 			if (!CryptDestroyHash(hash)) return false;

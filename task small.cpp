@@ -13,10 +13,10 @@
 extern handleitem Handle;
 
 // Hash the contents of the folder at path
-void TaskHashFolder(read path, HANDLE log) {
+void TaskHashFolder(read root, read path, HANDLE log) {
 
-	// List the folder in the hash log
-	LogAppend(log, make(L"                                          ", path, L"\r\n")); // Blank space in place of the hash value
+	// List the folder in the hash log, unless this is the root folder
+	if (string(root) != string(path)) LogAppend(log, make(L"                                          ", clip(path, length(root) + 1), L"\r\n")); // Blank space in place of the hash value
 
 	// Hash the contents of the folder
 	finditem f(path);
@@ -24,22 +24,22 @@ void TaskHashFolder(read path, HANDLE log) {
 
 		// Hash the subfolder or file
 		if (f.folder())
-			TaskHashFolder(make(path, L"\\", f.info.cFileName), log);
+			TaskHashFolder(root, make(path, L"\\", f.info.cFileName), log);
 		else
-			TaskHashFile(make(path, L"\\", f.info.cFileName), log);
+			TaskHashFile(root, make(path, L"\\", f.info.cFileName), log);
 
 		if (!JobContinue()) return;
 	}
 }
 
 // Hash the file at path
-void TaskHashFile(read path, HANDLE log) {
+void TaskHashFile(read root, read path, HANDLE log) {
 
 	// Hash the file
 	string s = JobTask(make(L"Hashing \"", path, L"\""));
-	string hash = L"ERROR! ERROR! ERROR!";
+	string hash = L"ERROR! ERROR! ERROR!"; // List the file even if there is an error hashing it
 	if (!DiskHashFile(path, &hash)) JobError(s);
-	LogAppend(log, make(hash, L"  ", path, L"\r\n"));
+	LogAppend(log, make(hash, L"  ", clip(path, length(root) + 1), L"\r\n"));
 }
 
 // Delete the contents of the folder at path, and then the folder itself

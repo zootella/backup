@@ -38,7 +38,8 @@ HANDLE LogOpen(read path, read title) {
 	LogAppend(file, L"<html><head><title>Backup</title></head><body><pre style=\"font: 8pt Courier New\">\r\n"); // HTML header for web browsers
 	LogAppend(file, make(title, L"\r\n")); // Text headers for the user
 	LogAppend(file, L"\r\n");
-	LogAppend(file, make(L"----------------------------------------  ", saydate(L":"), L" start\r\n"));
+	LogAppend(file, make(saydate(L":"), L" start\r\n"));
+	LogAppend(file, L"----------------------------------------\r\n");
 
 	// Return the open file handle
 	return file;
@@ -65,7 +66,8 @@ bool LogAppend(HANDLE file, read r) {
 bool LogClose(HANDLE file) {
 
 	// Write the footers
-	LogAppend(file, make(L"----------------------------------------  ", saydate(L":"), L" end\r\n"));
+	LogAppend(file, L"----------------------------------------\r\n");
+	LogAppend(file, make(saydate(L":"), L" end\r\n"));
 	LogAppend(file, L"</pre></body></html>\r\n");
 
 	// Close the file

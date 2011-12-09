@@ -103,8 +103,8 @@ void TaskCompare(read source, read destination);
 void TaskUpdate(read source, read destination, bool compare);
 
 // Functions in task small.cpp
-void TaskHashFolder(read path, HANDLE log);
-void TaskHashFile(read path, HANDLE log);
+void TaskHashFolder(read root, read path, HANDLE log);
+void TaskHashFile(read root, read path, HANDLE log);
 void TaskDeleteFolder(read path);
 void TaskDeleteFile(read path);
 void TaskCopyFolder(read source, read destination, bool compare);

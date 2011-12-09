@@ -67,7 +67,7 @@ void TaskHash(read path) {
 	if (!log) { JobError(make(L"Cannot write \"", s, L"\"")); return; }
 
 	// Hash folder
-	TaskHashFolder(path, log);
+	TaskHashFolder(path, path, log); // Root and folder are the same path
 
 	// Write the footer and close the file
 	LogClose(log);
