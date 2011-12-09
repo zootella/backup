@@ -10,7 +10,7 @@
 
 // Program build and name
 #define PROGRAMTEST false
-#define PROGRAMTITLE L"Backup 2011 December 9"
+#define PROGRAMTITLE L"Backup 2011 December 10"
 
 // Program settings
 #define PULSE 100
