@@ -50,8 +50,9 @@ void JobStart() { sectionitem section;
 	RegistryWrite(REGISTRYKEY, REGISTRYPATH, REGISTRYNAME, Job.tasks);
 
 	// Delete the log file from last time and open a new one
-	LogDelete(LogPathError());
-	Job.log = LogOpen(LogPathError(), L"Errors");
+	string s = LogPath(L"Backup");
+	DiskDeleteFile(s);
+	Job.log = LogOpen(s, L"Errors");
 
 	// Start a new thread that will perform all the tasks
 	BeginThread(Tasks); // Have the thread run the Tasks() function

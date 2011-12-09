@@ -9,6 +9,9 @@
 #include "class.h"
 #include "function.h"
 
+// Global objects
+extern handleitem Handle;
+
 // Prefix the given path before giving it to a system call so very long paths work
 string LongPath(read path) {
 
@@ -187,7 +190,16 @@ bool DiskCompareFile(read path1, read path2) {
 }
 
 // Hash the file at path, saving the hash value in base 16 in the given string
-bool DiskHashFile(read path, string *hash) {
+bool DiskHashFile(read path, string *s) {
+
+	// Access the cryptographic service provider
+	if (!Handle.provider) { // Runs once each time the program runs, the first time this function is called
+		if (!CryptAcquireContext(&Handle.provider, NULL, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT)) return false;
+	}
+
+	// Prepare to hash some data
+	HCRYPTHASH hash;
+	if (!CryptCreateHash(Handle.provider, CALG_SHA1, 0, 0, &hash)) return false;
 
 	// Hash each byte of data
 	mapitem map;
@@ -195,16 +207,29 @@ bool DiskHashFile(read path, string *hash) {
 	while (true) {
 		if (!map.set()) return false; // View the next block
 
-		//hash the file
-
+		// Hash the next block
+		if (!CryptHashData(hash, (byte *)map.view, (DWORD)map.s, 0)) return false;
 
 		// Nothing after this block
 		if (map.done()) {
 
-			//output the hash value
-			*hash = L"hashhashhashhashhash";
-			
+			// Get the hash value
+			BYTE value[20];
+			DWORD size = 20;
+			if (CryptGetHashParam(hash, HP_HASHVAL, value, &size, 0)) {
 
+				// Convert the hash value into base 16 text
+				WCHAR bay[MAX_PATH];
+				for (int i = 0; i < 20; i++) {
+					wsprintf(bay + (i * 2), L"%02x", value[i]); // Each call writes two wide characters and a null terminator
+				}
+
+				// Save it in the given string
+				*s = bay;
+			}
+
+			// Erase the hash
+			if (!CryptDestroyHash(hash)) return false;
 			return true;
 		}
 	}

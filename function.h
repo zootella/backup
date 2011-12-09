@@ -34,10 +34,7 @@ bool DiskCompareFile(read path1, read path2);
 bool DiskHashFile(read path, string *hash);
 
 // Functions in platform log.cpp
-string LogPathHash();
-string LogPathError();
 string LogPath(read name);
-bool LogDelete(read path);
 HANDLE LogOpen(read path, read title);
 bool LogAppend(HANDLE file, read r);
 bool LogClose(HANDLE file);
@@ -79,6 +76,7 @@ string saynumber(int number, read name);
 string insertcommas(read r);
 string saytime(DWORD time);
 string saydate(read separator);
+string sayguid();
 
 // Functions in platform window.cpp
 void Report(read r);

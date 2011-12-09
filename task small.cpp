@@ -16,7 +16,7 @@ extern handleitem Handle;
 void TaskHashFolder(read path, HANDLE log) {
 
 	// List the folder in the hash log
-	LogAppend(log, make(L"                      ", path, L"\r\n")); // Blank space in place of the hash value
+	LogAppend(log, make(L"                                          ", path, L"\r\n")); // Blank space in place of the hash value
 
 	// Hash the contents of the folder
 	finditem f(path);

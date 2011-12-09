@@ -9,18 +9,6 @@
 #include "class.h"
 #include "function.h"
 
-// Compose the path to the hash log file like "C:\Programs\Hash 2011-Sep-29 8;50p 41.084s.html" next to this running exe
-string LogPathHash() {
-
-	return LogPath(make(L"Hash ", saydate(L";")));
-}
-
-// Path to the log file named Backup.html next to this running exe
-string LogPathError() {
-
-	return LogPath(L"Backup");
-}
-
 // Takes a name like "Backup" without the trailing ".html" extension
 // Composes the path to the log file with the given name next to this running exe
 string LogPath(read name) {
@@ -29,12 +17,6 @@ string LogPath(read name) {
 	lstrcpy(bay, L"");
 	GetModuleFileName(NULL, bay, MAX_PATH);
 	return make(before(bay, L"\\", Reverse), L"\\", string(name), L".html");
-}
-
-// Delete the log file at the given path to write a new one there from the start
-bool LogDelete(read path) {
-
-	return DiskDeleteFile(path);
 }
 
 // Create a new log file at the given path and open it
@@ -51,14 +33,12 @@ HANDLE LogOpen(read path, read title) {
 		NULL);
 	if (file == INVALID_HANDLE_VALUE) return NULL;
 
-	// Start the file with two bytes that tell programs that unicode characters follow
-	LogAppend(file, L"\ufeff"); // Writes the 2 bytes ff fe, with ff first
-
-	// Write the HTML and text headers
-	LogAppend(file, L"<html><head><title>Backup</title></head><body><pre style=\"font: 8pt Courier New\">\r\n");
-	LogAppend(file, make(title, L"\r\n")); // Include the given title line of text
+	// Write the headers
+	LogAppend(file, L"\ufeff"); // Start with the 2 bytes ff fe, with ff first, to tell programs that unicode characters follow
+	LogAppend(file, L"<html><head><title>Backup</title></head><body><pre style=\"font: 8pt Courier New\">\r\n"); // HTML header for web browsers
+	LogAppend(file, make(title, L"\r\n")); // Text headers for the user
 	LogAppend(file, L"\r\n");
-	LogAppend(file, make(L"---- start ---- ", saydate(L":"), L" ----\r\n"));
+	LogAppend(file, make(L"----------------------------------------  ", saydate(L":"), L" start\r\n"));
 
 	// Return the open file handle
 	return file;
@@ -84,8 +64,8 @@ bool LogAppend(HANDLE file, read r) {
 // Close the given open log file
 bool LogClose(HANDLE file) {
 
-	// Write the text and HTML footers
-	LogAppend(file, make(L"---- end ---- ", saydate(L":"), L" ----\r\n"));
+	// Write the footers
+	LogAppend(file, make(L"----------------------------------------  ", saydate(L":"), L" end\r\n"));
 	LogAppend(file, L"</pre></body></html>\r\n");
 
 	// Close the file

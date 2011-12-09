@@ -256,6 +256,7 @@ public:
 	// Program handles
 	HINSTANCE instance; // Program instance handle
 	CRITICAL_SECTION section; // Critical section for the job object
+	HCRYPTPROV provider; // Cryptographic service provider
 
 	// Windows and menus
 	HWND window; // The main window on the screen
@@ -269,6 +270,11 @@ public:
 
 	// Our record of the information the window is displaying now
 	displayitem display;
+
+	// New
+	handleitem() {
+		provider = NULL; // Null before we hash a file
+	}
 };
 
 // The program's current job

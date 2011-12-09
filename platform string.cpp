@@ -318,3 +318,20 @@ string saydate(read separator) {
 	// Put it all together
 	return make(year, L"-", month, L"-", day, L" ", hour, separator) + make(minute, m, L" ", second, L".", millisecond, L"s");
 }
+
+// Compose 32 lowercase hexidecimal characters of a new unique guid, blank if error
+string sayguid() {
+
+	// Get a new unique GUID from the system
+	GUID guid;
+	if (CoCreateGuid(&guid) != S_OK) return L"";
+
+	// Convert the GUID into an OLE wide character string
+	WCHAR bay[MAX_PATH];
+	lstrcpy(bay, L"");
+	if (!StringFromGUID2(guid, (LPOLESTR)bay, MAX_PATH)) return L"";
+	string s = bay;
+
+	// Clip out the number parts of the GUID string and lowercase it
+	return (clip(s, 1, 8) + clip(s, 10, 4) + clip(s, 15, 4) + clip(s, 20, 4) + clip(s, 25, 12)).MakeLower();
+}

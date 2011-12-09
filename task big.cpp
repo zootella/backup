@@ -62,9 +62,9 @@ void TaskHash(read path) {
 	if (!DiskFolder(path, false, false)) { JobError(make(L"Cannot hash \"", path, L"\"")); return; }
 
 	// Create and open a file to list the hashes
-	string hash = LogPathHash();
-	HANDLE log = LogOpen(hash, make(L"Hash of \"", path, L"\""));
-	if (!log) { JobError(make(L"Cannot write \"", hash, L"\"")); return; }
+	string s = LogPath(make(L"Hash ", saydate(L";"), L" ", sayguid()));
+	HANDLE log = LogOpen(s, make(L"Hash of \"", path, L"\""));
+	if (!log) { JobError(make(L"Cannot write \"", s, L"\"")); return; }
 
 	// Hash folder
 	TaskHashFolder(path, log);
