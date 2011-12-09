@@ -37,7 +37,7 @@ void TaskHashFile(read root, read path, HANDLE log) {
 
 	// Hash the file
 	string s = JobTask(make(L"Hashing \"", path, L"\""));
-	string hash = L"ERROR! ERROR! ERROR!"; // List the file even if there is an error hashing it
+	string hash = L"ERROR! ERROR! ERROR! ERROR! ERROR! ERROR"; // List the file even if there is an error hashing it
 	if (!DiskHashFile(path, &hash)) JobError(s);
 	LogAppend(log, make(hash, L"  ", clip(path, length(root) + 1), L"\r\n"));
 }
