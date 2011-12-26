@@ -264,15 +264,17 @@ string saytime(DWORD time) {
 	if (time < 1000) return L"less than a second";
 
 	// Calculate the hour, minute, and second numbers
-	int hour = time / 3600000;
-	int minute = (time / 60000) - (hour * 60);
-	int second = (time / 1000) - (hour * 3600) - (minute * 60);
+	int day    = (time / (24 * 60 * 60 * 1000));
+	int hour   = (time /      (60 * 60 * 1000)) - (day * 24);
+	int minute = (time /           (60 * 1000)) - (day * 24 * 60)      - (hour * 60);
+	int second = (time /                (1000)) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
 
 	// Compose the text to display and return it
 	string s;
-	if (hour) s += saynumber(hour, L"hour");
-	if (hour || minute) s += L" " + saynumber(minute, L"minute");
-	s += L" " + saynumber(second, L"second");
+	if (day)                             s = make(s, saynumber(day,    L"day"),    L" ");
+	if (day || hour)                     s = make(s, saynumber(hour,   L"hour"),   L" ");
+	if (day || hour || minute)           s = make(s, saynumber(minute, L"minute"), L" ");
+	if (day || hour || minute || second) s = make(s, saynumber(second, L"second"), L" ");
 	return trim(s, L" ");
 }
 
