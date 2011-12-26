@@ -179,8 +179,8 @@ bool DiskCompareFile(read path1, read path2) {
 
 	// Compare each byte of data
 	mapitem map1, map2;
-	if (!map1.open(path1)) return false; // Unable to open them
-	if (!map2.open(path2)) return false;
+	if (!map1.openfile(path1) || !map1.openmap()) return false; // Unable to open them
+	if (!map2.openfile(path2) || !map2.openmap()) return false;
 	while (true) {
 		if (!map1.set()) return false; // Unable to view the next chunk
 		if (!map2.set()) return false;
@@ -192,6 +192,21 @@ bool DiskCompareFile(read path1, read path2) {
 // Hash the file at path, saving the hash value in base 16 in the given string
 bool DiskHashFile(read path, string *s) {
 
+	// Open the file and find out how big it is
+	mapitem map;
+	if (!map.openfile(path)) return false;
+
+	// Empty file
+	if (!map.size) {
+
+		// The hash value of no data
+		*s = L"da39a3ee5e6b4b0d3255bfef95601890afd80709";
+		return true;
+	}
+
+	// Open the mapping
+	if (!map.openmap()) return false;
+
 	// Access the cryptographic service provider
 	if (!Handle.provider) { // Runs once each time the program runs, the first time this function is called
 		if (!CryptAcquireContext(&Handle.provider, NULL, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT)) return false;
@@ -202,8 +217,6 @@ bool DiskHashFile(read path, string *s) {
 	if (!CryptCreateHash(Handle.provider, CALG_SHA1, 0, 0, &hash)) return false;
 
 	// Hash each byte of data
-	mapitem map;
-	if (!map.open(path)) { CryptDestroyHash(hash); return false; } // Open the file
 	while (true) {
 		if (!map.set()) { CryptDestroyHash(hash); return false; } // View the next block
 

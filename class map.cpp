@@ -12,8 +12,8 @@
 // Global objects
 extern handleitem Handle;
 
-// Map the file at path into memory
-bool mapitem::open(read path) {
+// Open the file at path and find out how big it is
+bool mapitem::openfile(read path) {
 
 	// Open the file
 	file = CreateFile(
@@ -31,6 +31,13 @@ bool mapitem::open(read path) {
 	DWORD low = GetFileSize(file, &high);
 	size = Combine(high, low);
 
+	// Everything worked
+	return true;
+}
+
+// Map the file into memory
+bool mapitem::openmap() {
+
 	// Open the map
 	map = CreateFileMapping(
 		file,          // Handle to open file
@@ -39,7 +46,7 @@ bool mapitem::open(read path) {
 		0,             // Map the whole file
 		0,
 		NULL);         // Don't specify a name for the object
-	if (!map) return false;
+	if (!map) return false; // Can't map a 0 byte file
 
 	// Everything worked
 	return true;

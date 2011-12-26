@@ -86,7 +86,8 @@ public:
 	}
 
 	// Methods
-	bool open(read path);
+	bool openfile(read path);
+	bool openmap();
 	bool set();
 
 	// True if we're on the last block
